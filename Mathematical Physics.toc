@@ -1,0 +1,40 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Category and Functors}{5}{chapter.1}
+\contentsline {section}{\numberline {1.1}Category}{5}{section.1.1}
+\contentsline {section}{\numberline {1.2}Product and Coproduct}{6}{section.1.2}
+\contentsline {section}{\numberline {1.3}Functor}{8}{section.1.3}
+\contentsline {section}{\numberline {1.4}Natural Transformation}{10}{section.1.4}
+\contentsline {section}{\numberline {1.5}Adjoint Functors}{13}{section.1.5}
+\contentsline {chapter}{\numberline {2}Groups Categories}{17}{chapter.2}
+\contentsline {section}{\numberline {2.1}Group}{17}{section.2.1}
+\contentsline {section}{\numberline {2.2}Free Group}{22}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Universal construction}{22}{subsection.2.2.1}
+\contentsline {section}{\numberline {2.3}Free and Underlying Functor}{23}{section.2.3}
+\contentsline {section}{\numberline {2.4}Subgroup}{25}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Adjoint Action}{26}{subsection.2.4.1}
+\contentsline {chapter}{\numberline {3}Linear Space Cateroires}{29}{chapter.3}
+\contentsline {section}{\numberline {3.1}Vector Space}{29}{section.3.1}
+\contentsline {section}{\numberline {3.2}Free and Underlying Functor}{30}{section.3.2}
+\contentsline {section}{\numberline {3.3}Vector Subspace}{33}{section.3.3}
+\contentsline {section}{\numberline {3.4}Direct Sum of Vector Spaces}{35}{section.3.4}
+\contentsline {section}{\numberline {3.5}Complex and Real Linear Space}{35}{section.3.5}
+\contentsline {section}{\numberline {3.6}Tensor Product}{36}{section.3.6}
+\contentsline {chapter}{\numberline {4}Associated Algebra Category and Lie Algebra Category}{39}{chapter.4}
+\contentsline {section}{\numberline {4.1}Associated Algebra}{39}{section.4.1}
+\contentsline {section}{\numberline {4.2}Lie Algebra}{41}{section.4.2}
+\contentsline {section}{\numberline {4.3}Universal Enveloping Algebra}{42}{section.4.3}
+\contentsline {section}{\numberline {4.4}Physcal Application}{44}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Multi-particle State}{44}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Fock Space}{45}{subsection.4.4.2}
+\contentsline {chapter}{\numberline {5}Representation Category}{47}{chapter.5}
+\contentsline {section}{\numberline {5.1}Group Representation}{47}{section.5.1}
+\contentsline {section}{\numberline {5.2}Representation of Lie Algebra}{48}{section.5.2}
+\contentsline {chapter}{\numberline {6}Category of Topology}{51}{chapter.6}
+\contentsline {section}{\numberline {6.1}topological Space}{51}{section.6.1}
+\contentsline {section}{\numberline {6.2}Category}{52}{section.6.2}
+\contentsline {section}{\numberline {6.3}Algebric Topology}{52}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Fundamental Groups}{52}{subsection.6.3.1}
+\contentsline {subsubsection}{Motivation and Basic Ideas}{52}{subsubsection*.3}
+\contentsline {subsubsection}{Computation Methods}{52}{subsubsection*.4}
+\contentsline {subsubsection}{Relation to Homotopy}{53}{subsubsection*.5}
+\contentsline {subsection}{\numberline {6.3.2}Homology Group}{53}{subsection.6.3.2}

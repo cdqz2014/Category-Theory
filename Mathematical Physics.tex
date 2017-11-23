@@ -1,0 +1,1317 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% LaTeX book template
+%% Author:  hu xiaodong
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% !Mode::"TeX:UTF-8"（Suggest xelatex to compile）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[b5paper,11pt,UTF8]{book}
+\usepackage[Symbol]{upgreek}%%% 使用\up+希腊字母, 可得直立体(如文中的\uppsi)
+\usepackage[space]{ctex}
+\usepackage{mathrsfs,amssymb,amsfonts,amsmath,bm,ntheorem}
+%\usepackage{mathbbol} % 改版自 mathbbold，从此与 amsfonts 的 mathbb 冲突！！！ 参看 CTAN mathbbol 的 readme
+% 故改用 bbm 宏包，see https://tex.stackexchange.com/questions/488 
+\usepackage{bbm} % 双线数字，用法为 \mathbbm{1}
+
+\usepackage{cases}%%%%%%%%%%%%%% label the equation in cases(two forms)
+\usepackage{fancyhdr,titlesec,enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 版面调节 %%%%%%%%%%
+\usepackage[paperwidth=182mm,paperheight=257mm,text={142mm,210mm},left=23mm,includehead,vmarginratio=1:1]{geometry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{lmodern}
+% Source: http://en.wikibooks.org/wiki/LaTeX/Hyperlinks %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+%\usepackage[numbers,sort&compress]{natbib}%%%% 修改参考文献
+%\usepackage{feynmf}%%%%%%%%%%%%%%%%%%% 费曼图
+\usepackage{simplewick}%%%%%%%%%%%%%%%%%%%%% Wick缩并
+\usepackage[all]{xy}%% or {xypic} %%%%%%% commute diagram
+%\usepackage{multirow}%% two draw a table cross column
+
+%%%%%%%%%%%%%%%%%正体微分%%%%%%%%%%%%%%%%%
+\newcommand*\dd{\mathop{}\!\mathrm{d}}
+\newcommand*\ddd[1]{\mathop{}\!\mathrm{d^#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 'dedication' environment: To add a dedication paragraph at the start of book %
+% Source: http://www.tug.org/pipermail/texhax/2010-June/015184.html            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{dedication}
+{
+    \cleardoublepage
+    \thispagestyle{empty}
+    \vspace*{\stretch{1}}
+    \hfill\begin{minipage}[t]{0.66\textwidth}
+    \raggedright
+}
+{
+    \end{minipage}
+    \vspace*{\stretch{3}}
+    \clearpage
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Chapter quote at the start of chapter        %
+% Source: http://tex.stackexchange.com/a/53380 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\renewcommand{\@chapapp}{}% Not necessary...
+\newenvironment{chapquote}[2][2em]
+    {\setlength{\@tempdima}{#1}%
+    \def\chapquote@author{#2}%
+    \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+    \itshape}
+    {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% First page of book which contains 'stuff' like: %
+%  - Book title, subtitle                         %
+%  - Book author name                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Book's title and subtitle
+\title{\zihao{0} \textbf{Mathematical Physics Ⅰ}  %\footnote{This is a footnote.}
+\\[1em] \huge 理论格物论第七卷 %\footnote{This is yet another footnote.}
+}
+% Author
+\author{\textsc{殷峥~授}\textsc{~~~胡啸东}\thanks{\url{cdqz2014@mail.ustc.edu.cn}}\textsc{ 整理}}
+
+%%%%%%%%%%%%%%%%%%%%%方程按节编号%%%%%%%%%%%%%%%%%%%%%
+\numberwithin{equation}{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\makeatletter%%% form stackexchange to change the space of matrix in [amsmath]
+%\renewcommand*\env@matrix[1][\arraystretch]{%
+%  \edef\arraystretch{#1}%
+%  \hskip -\arraycolsep
+%  \let\@ifnextchar\new@ifnextchar
+%  \array{*\c@MaxMatrixCols c}}
+%\makeatother
+
+
+\begin{document}
+%\begin{fmffile}{fmftemp1}%%%%%%%%费曼图
+\frontmatter
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add a dedication paragraph to dedicate your book to someone %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dedication}
+{\kaishu 山无数，乱红如雨，不记来时路。}\\
+\hfill{———— {\heiti 相对论吧纪念墙}}
+\end{dedication}
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %  定理定义等
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{Experiment}[section]
+\newenvironment{Experiment}[1][]{{\par\normalfont\bfseries 实验事实~\stepcounter{Experiment}\arabic{Experiment}#1~~}\kaishu}{\par}
+%\newcounter{Assign}[section] %%%No counter
+\newenvironment{Assign}{{\par\normalfont\bfseries 作业~}\kaishu}{\par}
+\newcounter{Axiom}[section]
+\newenvironment{Axiom}[1][]{{\par\normalfont\bfseries 公理~\stepcounter{Axiom}\arabic{Axiom}#1~~}\kaishu}{\par}
+\newcounter{Hypothesis}[section]
+\newenvironment{Hypothesis}[1][]{{\par\normalfont\bfseries 假设~\stepcounter{Hypothesis}\arabic{Hypothesis}#1~~}\kaishu}{\par}
+%%%%%%%%无标号假设%%%%%%%%%%%%%%%
+\newenvironment{Hypothesis*}[1][]{{\par\normalfont\bfseries 假设~#1~~}\kaishu}{\par}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{Proposition}[section]
+\newenvironment{Proposition}[1][]{{\par\normalfont\bfseries 命题~\stepcounter{Proposition}\arabic{Proposition}#1~~}\kaishu}{\par}
+\newcounter{Corollary}[section]
+\newenvironment{Corollary}[1][]{{\par\normalfont\bfseries 推论~\stepcounter{Corollary}\arabic{Corollary}#1~~}\kaishu}{\par}
+\newcounter{Theorem}[section]
+\newenvironment{Theorem}[1][]{{\par\normalfont\bfseries 定理~\stepcounter{Theorem}\arabic{Theorem}#1~~}\kaishu}{\par}
+\newcounter{Lemma}[section]
+\newenvironment{Lemma}[1][]{{\par\normalfont\bfseries 引理~\stepcounter{Lemma}\arabic{Lemma}#1~~}\kaishu}{\par}
+\newcounter{Property}[section]
+\newenvironment{Property}[1][]{{\par\normalfont\bfseries 性质~\stepcounter{Property}\arabic{Property}#1~~}\kaishu}{\par}
+\newcounter{Assertion}[section]
+\newenvironment{Assertion}[1][]{{\par\normalfont\bfseries 断语~\stepcounter{Assertion}\arabic{Assertion}#1~~}\kaishu}{\par}
+\newenvironment{Proof}{{\par{\heiti 证明}~~}}{\hfill $\square$ \par\hfill\par}
+\newcounter{Example}[section]
+\newenvironment{Example}[1][]{{\par\normalfont\bfseries 例~\stepcounter{Example}\arabic{Example}#1~~}\songti}{\hfill\par\hfill\par}
+\newcounter{Def}[section]
+\newenvironment{Def}[1][]{{\par\normalfont\bfseries 定义~\stepcounter{Def}\arabic{Def}#1~~\songti}}{\par}
+%%%%%%%%无标号定义%%%%%%%%%%%%%%%
+\newenvironment{Def*}[1][]{{\par\normalfont\bfseries 定义~#1~~}\kaishu}{\par}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{Note}[section]
+\newenvironment{Note}[1][]{{\par\normalfont\bfseries 注~\stepcounter{Note}\arabic{Note}#1~~}\songti}{\par}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ % 首页后根据奇偶页不同设置页眉页脚
+ % L,C,R分别代表左中右，O,E代表奇偶页
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \pagestyle{fancy}
+ \fancyhf{}
+ %\fancyhead[RE]{第~XX~卷}%%%%%偶数页左上
+ \fancyhead[EC]{\nouppercase{\heiti\leftmark}}%%%%%%偶数页中上
+ \fancyhead[EL,OR]{\thepage}%%%%%%奇数页右上与偶数页左上，页码
+ \fancyhead[OC]{\nouppercase{\heiti\rightmark}}%%%%%奇数页中上
+ \lfoot{}
+ \cfoot{}
+ \rfoot{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%
+% Preface %
+%%%%%%%%%%%
+\chapter*{Preface}
+    \par 
+    One sometimes hears from not only professors but also students their attitudes towards the relation between mathematics and physics: \emph{the greater the mathematical care used to formulate a concept, the less the physical insight to be gained from that formulation}. It is not difficult to imagine how such a viewpoint could come to be popular. It is often the case that the essential physical ideas of a discussion are smothered by mathematics through excessive definitions, concern over irrelevant generality, etc. Nonetheless, one can make a case that mathematics as mathematics, if used thoughtfully, is almost always useful--and ocassionally essential--to progress in theoretical physics.\par
+    The purpose of this book is to introduce the language of category theory which grasps and concentrates the common structures hidden behind and shared by all different brunches of mathematics and makes definitions of abstract concepts natrural and clear for physicists to comprehend and then never be a shrinking violet when faced with subtle mathematical problems. \par
+    It is predictable that the widespread biased common view mentioned above would gradually disapear after more and more physicists personally realized the unity and convenience of mathematics used in theoretical physics brought by the ``abstract nonsense'': category theory. And I am very glad to see it. \par
+    \hfill\par
+    \hfill\par
+    \hfill 胡啸东\par
+    \hfill 中国科学技术大学\quad 本科三年级下\par
+    \hfill 二〇一七年二月廿六
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Give credit where credit is due. %
+% Say thanks!                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{Acknowledgements}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Auto-generated table of contents, list of figures and list of tables %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents
+
+%%%%%%%%%%%%%%%%
+% NEW CHAPTER! %
+%%%%%%%%%%%%%%%%
+\clearpage
+
+\chapter{Category and Functors}
+
+    \section{Category}
+        \begin{Def}[(Category)]
+            A \emph{catergory} $\mathcal{C}$ consists three things:
+            \begin{itemize}
+                \item A \emph{class} $\mathsf{Obj}$ whose elements are called \emph{objects};
+                \item A \emph{set}\footnote{Many textbooks also use another notation $\mathrm{Hom}(A,B)$.} $\mathrm{Mor}(A,B)$ with $A,B$ two objects, whose elements $f$ are called \emph{morphisms} from the \emph{domain} $A$ to the \emph{codomain} $B$, denoted as $\displaystyle A\mathop{\rightarrow}^{f}B$.
+                \item A rule which assigns any objects $A,B,C$, any morphism $\displaystyle A\mathop{\rightarrow}^{f}B$, $\displaystyle B\mathop{\rightarrow}^{g}C$, a morphism from $A$ to $C$, called the \emph{composition} of $f$ and $g$, denoted as $g\circ f$, subject to the following two conditions:
+                \begin{align*}
+                    &\text{Associativity of composition:}& (g\circ f)\circ h=g\circ(f\circ h);\\
+                    &\text{Exisentce of identity:}&\exists i_A,i_B,\text{  s.t. }\quad f\circ i_A=f=i_B\circ f.
+                \end{align*}
+            \end{itemize}
+        \end{Def}
+        So to define a category, one should concern on two aspects: one is a class of objects sharing some properties in common, another one is a set of maps between such objects that preseving those properties. For examle, linear map holds the linearity of linearr spaces.  
+        \begin{Example}
+            The collection of all sets and all functions on them forms a category, where the composition law is exact the ususal composition of fucntions, denoted as $\mathbf{Set}$.
+        \end{Example}
+        \begin{Example}
+            The collection of all the linear spaces\footnote{Note there is no constraint on dimensions of linear spaces.} on field $\mathbb{K}$ and linear maps on them forms a category, denoted as $\mathbf{Vec}_{\mathbb{K}}$.
+        \end{Example}
+        \begin{Def}
+            We say morphism $f:A\rightarrow B$ is an \emph{isomorphism} if there exists anothor arrow $g:B\rightarrow A$, named the \emph{inverse} of $f$, such that
+            $$f\circ g=i_A,\quad g\circ f=i_B,$$
+            i.e., the diagram 
+            $$\xymatrix @R=1.5cm @C=2cm {A \ar @/^/[r]^f & B \ar @/^/[l]^g }$$ %%%%% 注意弯线之用法
+            commutes. 
+        \end{Def}
+        \begin{Def}
+            Let $\mathcal{C}$ be a category. We say morphism $f:A\rightarrow B$ is
+            \begin{itemize}
+                \item \emph{monic} (or a \emph{monomorphism}) if $f\circ g=f\circ h\implies g=h$;
+                \item \emph{epic} (or a \emph{epimorphism}) if $g\circ f=h\circ f\implies g=h$.
+            \end{itemize}
+        \end{Def}
+
+        \begin{Proposition}
+            In $\mathbf{Set}$, a morphism is monic iff it is \emph{one-to-one}. Dually\footnote{We will get back to this in the following sections}, a morphism is epic iff it is \emph{on-to}.
+        \end{Proposition}
+        \begin{Proof}
+            Exercises.
+        \end{Proof}
+
+    \section{Product and Coproduct}
+        \begin{Def}[(Coproduct)]
+            In $\mathcal{C}$, the \emph{coproduct} (or \emph{direct sum}) of objects $A$ and $B$, denoted $A\coprod B$ is an object in $\mathcal{C}$ with two morphisms $\iota_A:A\rightarrow A\coprod B$ and $\iota_B:B\rightarrow A\coprod B$ called the \emph{canonical injection} such that with any object $C$ and two morphisms $f_A:A\rightarrow C$ and $f_B:B\rightarrow C$ there exists a \emph{unique} map $\phi:A\coprod B\rightarrow C$ such that the diagram
+            $$\xymatrix{A\ar[dr]^{\iota_A} \ar @/^1pc/[drr]^{f_A} & & \\ & A\coprod B \ar[r]|-{\phi} & C \\ B \ar[ru]|{\iota_B} \ar @/_1pc/[urr]_{f_B} & & }$$
+            commutes, or
+            $$f_A=\iota_A\circ\phi,\quad f_B=\iota_B\circ\phi.$$
+        \end{Def}
+        \begin{Example}
+            In $\mathbf{Set}$, coproduct of sets $A$ and $B$ is exactly the \emph{disjoint union}\footnote{Let's give an example to illustrate this basics concept: given two sets $A=\{1,2,3\}$ and $B=\{3,4,5\}$, then $A\bigcup_d B=\{1,2,3_A,3_B,4,5\}$. Here we intentionally add a subscript in each ``$3$'' since they denote merely something abtractly in sets and have not to be essentially the same even if they have the same name, especially when we put them together.} $A\bigcup_d B$.
+            \begin{Proof}
+                Let $C$ be a set with $f_A:A\rightarrow C$, $f_B:B\rightarrow C$, then elements of $A\coprod B$ are either $a_A$ where $a\in A$ or $b_B$ where $b\in B$ and $\iota_A(a)=a_A$, $\iota_B(b)=b_B$. Define $\phi:A\coprod B\rightarrow C$ by $\phi(a_A)=f_A(a)$ and $\phi(b_B)=f_B(b)$, then clearly $\phi$ makes the diagram commutes and that's the existence of $\phi$.\par
+                Next, suppose $\phi'$ is another morphism from $A\coprod B$ to $C$ that makes the diagram commutes, then
+                $$\phi'(a_A)=\phi'\circ\iota_A(a)=(\phi'\circ\iota_A)(a)=(\phi\circ\iota_A)(a)=\phi(a_A),$$
+                and $\phi'(b_B)=\phi(b_B)$. Addtionally, the domain and codomain\footnote{This condition should not be neglected when judging whether two morphisms are the same.} of both $\phi$ and $\phi'$ coincides. So we conclude that these two morphism are equal $\phi=\phi'$ and thus $\phi$ is unique.
+            \end{Proof}
+        \end{Example}
+        \begin{Proposition}
+            Coproduct is unique up to an isomorphism.
+        \end{Proposition}
+        \begin{Proof}
+            Suppose there is another coproduct of $A$ and $B$, denoted as $A\coprod' B$, then by definition we have the commutative diagram
+            $$\xymatrix{A \ar[dr]_{\iota_A} \ar @/^0.35pc/[drr]|{\iota_A'} \ar @/^1pc/[drrr]^{\iota_A} & & & \\ & A\coprod B \ar[r]|-{\phi} & A\coprod'B \ar[r]|-{\phi'} & A\coprod B \\ B \ar[ur]|{\iota_B} \ar @/_0.35pc/[urr]|{\iota_B'} \ar @/_0.8pc/[urrr]_{\iota_B} & & & .}$$
+            But by the uniqueness of coproducts, we must have
+            $$\phi\circ\phi'=i_{A\coprod B}.$$
+            Similarly, draw two pair of $A\coprod' B$, we also must have
+            $$\phi'\circ\phi=i_{A\coprod' B},$$
+            and thus we are done.
+        \end{Proof}
+        \begin{Def}[(Product)]
+            In $\mathcal{C}$, the \emph{product} of objects $A$ and $B$, denoted $A\prod B$ is an object in $\mathcal{C}$ with two morphisms $\pi_A:A\prod B\rightarrow A$ and $\pi_B:A\prod B\rightarrow B$ called \emph{canonical projection} such that with any object $C$ and two morphisms $f_A:C\rightarrow A$ and $f_B:C\rightarrow B$ there exists a \emph{unique} map $\phi:C\rightarrow A\prod B$ such that the diagram
+            $$\xymatrix{A & & \\ & A\prod B \ar[ul]|{\pi_A} \ar[dl]|{\pi_B}& C \ar[l]|-{\psi} \ar @/^1pc/[dll]^{f_B} \ar @/_1pc/[ull]_{f_A}\\ B & & }$$
+            commutes, or
+            $$f_A=\psi\circ\pi_A,\quad f_B=\psi\circ\pi_B.$$
+        \end{Def}
+        \begin{Example}
+            In $\mathbf{Set}$, $A\prod B$ is exactly the \emph{Cartesian product} $A\times B\equiv\{(a,b)|a\in A,b\in B\}$, with $\pi_A((a,b))=a$ and $\pi_B((a,b))=b$. One can easily see that for each $c\in C$ the defined $\psi(c):=(f_A(c),f_B(c))$ uniquely makes the diagram commutes.
+        \end{Example}
+        By the similar reason of coproduct, we also have
+        \begin{Proposition}
+            Products is also unique up to an isomorphism.
+        \end{Proposition}
+
+    \section{Functor}
+        \begin{Def}[(Convariant Functor)]
+            A \emph{covariant functor} $F$ from category $\mathcal{C}_1$ to $\mathcal{C}_2$ is defined as: to every object $A\in\mathcal{C}_1$ we associate an object $F(A)\in\mathcal{C}_2$ and for every arrow $f\in\mathrm{Mor}(A,B)$ we associate an arrow $F(f)\in\mathrm{Mor}(F(A),F(B))$ such that
+            $$F(i_A)=i_{F(A)},\quad F(g\circ f)=F(g)\circ F(f).$$
+        \end{Def}
+        \begin{Def}[(Contravariant Functor)]
+            A \emph{covariant functor} $F$ from category $\mathcal{C}_1$ to $\mathcal{C}_2$ is defined as: to every object $A\in\mathcal{C}_1$ we associate an object $F(A)\in\mathcal{C}_2$ and for every arrow $f\in\mathrm{Mor}(A,B)$ we associate an arrow $F(f)\in\mathrm{Mor}(F(A),F(B))$ such that
+            $$F(i_A)=i_{F(A)},\quad F(g\circ f)=F(f)\circ F(g).$$            
+        \end{Def}
+        \begin{Note}
+            Since we already have the commute diagram in category $\mathcal{C}_1$:
+            $$\xymatrix{ & B \ar[rd]^g & \\A \ar[ur]^f \ar[rr]_{g\circ f}& & C,}$$
+            the covariant functor is a kind of ``direct lifting'' that preserve the order of morphisms (we call this \emph{functoriality}):
+            $$\xymatrix{ & F(B) \ar[rd]^{F(g)} & \\F(A) \ar[ur]^{F(f)} \ar[rr]_{F(g\circ f)}& & F(C),}$$
+            while the contravariant functor is the ``reveresed lifting'':
+            $$\xymatrix{ & F(B) \ar[ld]_{F(f)} & \\F(A) & & F(C) \ar[ll]^{F(g\circ f)} \ar[ul]_{F(g)}.}$$
+        \end{Note}
+        Next we are to introduce two significant but a little bit confusing functors:
+        \begin{Example}[(Functor form $\mathbf{Vec}$ to $\mathbf{Set}$)]
+            Note that \emph{the collection of morphism is exactly a set}, which can be regarded as the object of $\mathbf{Set}$, thus for a fixed $V_0\in\mathbf{Vec}$, we have both $\mathrm{Mor}(V_0,*),\mathrm{Mor}(*,V_0):\mathbf{Vec}\rightarrow\mathbf{Set}$ functors. More precisely, we claim that \textbf{$\mathrm{Mor}(V_0,*)$ is a covariant functor while $\mathrm{Mor}(*,V_0)$ is a contravariant functor}.
+            \begin{Proof}
+                First, for the functor $\mathrm{Mor}(V_0,*)$ %and $m\in\mathrm{Mor}(V_0,W_1), f\in\mathrm{Mor}(W_1,W_2)$, we have
+                %$$\xymatrix{ & W_1\ar[rd]^f & \\ V_0 \ar[ur]^m \ar[rr]_{f\circ g} & W_2.}$$
+                we naturally assign\footnote{If you are not familiar with the notation here, just replace $\mathrm{Mor}(V_0,*)$ with some $F(*)$ and thus for example $\mathrm{Mor}(V_0,W_1)\equiv F(W_1)$ and $\mathrm{Mor}(V_0,f)\equiv F(f)$, which concord with the notation we used in definiton.} each $W_1\in\mathbf{Vec}$ a $\mathrm{Mor}(V_0,W_1)\in\mathbf{Set}$ and $W_2\in\mathbf{Vec}$ a $\mathrm{Mor}(V_0,W_2)\in\mathbf{Set}$, then by definition, denoting $f\in\mathrm{Mor}(W_1,W_2)$, since a functor is still assignment of morphisms, we still need to assign each $f$ a $\mathrm{Mor}(V_0,f)\in\mathrm{Mor}\bigg(\mathrm{Mor}(V_0,W_1),\mathrm{Mor}(V_0,W_2)\bigg)$. Denote $m\in\mathrm{Mor}(V_0,W_1)$ and explicitly define the action
+                $$\mathrm{Mor}(V_0,f)(m)=f\circ m,$$
+                then we are to check that this is indeed a covariant functor. In fact, for the identical map on $W_1$,
+                $$\mathrm{Mor}(V_0,i_{W_1})(m)=i_{W_1}\circ m=m\implies\mathrm{Mor}(V_0,i_{W_1})=i_{\mathrm{Mor}(V_0,W_1)}.$$
+                Moreover, for $f_1,f_2\in\mathrm{Mor}(W_1,W_2)$, on the one hand we have
+                $$\bigg(\mathrm{Mor}(V_0,f_2\circ f_1)\bigg)(m)=(f_2\circ f_1)\circ m,$$
+                on the other hand,
+                \begin{align*}
+                    \bigg(\mathrm{Mor}(V_0,f_2)\circ\mathrm{Mor}(V_0,f_1)\bigg)(m)&=\mathrm{Mor}(V_0,f_2)\bigg(\mathrm{Mor}(V_0,f_1)(m)\bigg)\\
+                    &=\mathrm{Mor}(V_0,f_2)(f_1\circ m)=f_2\circ(f_1\circ m),
+                \end{align*}
+                which implies $\mathrm{Mor}(V_0,f_2\circ f_1)=\mathrm{Mor}(V_0,f_2)\circ\mathrm{Mor}(V_0,f_1)$. Therefore $\mathrm{Mor}(V_0,*)$ is a covariant functor.\par
+                With slight changes can we also prove that $\mathrm{Mor}(*,V_0)$ is indeed a contravariant functor. Here we just leave it as an exercise.
+            \end{Proof}
+        \end{Example}
+
+    \section{Natural Transformation}
+        \begin{Proposition}
+            Denote the \emph{dual category} of $\mathcal{A}$ as $\mathcal{A}^*$, where morphisms in it reverse their arrows, then a contravariant functor $F:\mathcal{A}\rightarrow\mathcal{B}$ is just a covariant functor from $
+            \mathcal{A}^*$ to $\mathcal{B}$.
+        \end{Proposition}
+        \begin{Def}
+            Given two categorys $\mathcal{A}$ and $\mathcal{B}$ , we define $\mathcal{A}\times\mathcal{B}$ whose objects are $(X,Y)$ with $X\in A$ and $Y\in B$ and morphism $\mathrm{Mor}((X,Y),(X',Y'))=\{(f,g)|f\in\mathrm{Mor}(X,X'),\mathrm{Mor}(Y,Y')\}$. 
+        \end{Def}
+        Similarly, 
+        \begin{Def}
+        Given functor $F:\mathcal{A}\rightarrow\mathcal{B}$ and $G:\mathcal{C}\rightarrow\mathcal{D}$, we can also define the \emph{bifunctor} by 
+        $$(F,G)(X,Y):=(FX,GY),\quad(F,G)(f,g):=(Ff,Gg)$$
+        for any $X,X'\in\mathcal{A}, Y,Y'\in\mathcal{C}$ and $f\in\mathrm{Mor}(X,X'), g\in\mathrm{Mor}(Y,Y')$.
+        \end{Def}
+        One can check that this indeed define a functor.
+        \begin{Def}
+            We call the functor $\mathbbm{1}:\mathcal{A}\rightarrow\mathcal{A}$ the \emph{identity functor} if we associate each $A,B\in\mathcal{A}$ a $\mathbbm{1}(A)=A,\mathbbm{1}(B)=B$, and each $f\in\mathrm{Mor}(A,B)$ a $\mathbbm{1}(f)=f$.\par
+            Given $\mathcal{A},\mathcal{B}$ if there exists $F:\mathcal{A}\rightarrow\mathcal{B}$ and $G:\mathcal{B}\rightarrow\mathcal{A}$ such that $FG=\mathbbm{1}$, $GF=\mathbbm{1}$ then $\mathcal{A}$ and $\mathcal{B}$ are said to be \emph{isomorphic} categories. 
+        \end{Def}
+        \begin{Def}[(Natrual Transformation)]
+            Given two funtors $F,G:\mathcal{A}\rightarrow\mathcal{B}$, we define \emph{natural transformation} $t:F\rightarrow G$ as that for each $X,Y\in\mathcal{A}$ we associate $t_X, t_Y$ s.t. $\forall f:X\rightarrow Y$, the diagram
+            %%%%%%%%%%%%% commute diagram %%%%%%%%%%%%%
+            $$\xymatrix@C=1.5cm @R=1.5cm{F(X) \ar[r]^-{t_X}\ar[d]_{F(f)} & G(X) \ar[d]^{G(f)} \\ F(Y) \ar[r]^-{t_Y} & G(Y)}$$ 
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            commutes.
+        \end{Def}
+        Particularly, if $t_X$ is an \emph{isomorphism} for all $X\in\mathcal{A}$, we call $t$ a \emph{natrual isomorphism/equivalence} (certainly this is a equivalent relation) of such two functors, denoted as $F\sim G$. 
+        \begin{Example}
+            Define the duplication functor $\Delta:\mathcal{A}\rightarrow\mathcal{A}\times\mathcal{A}$ by $a\mapsto(a,a)$ and $f\mapsto(f,f)$ for all $a,a'\in\mathcal{A}$ and $f\in\mathrm{Mor}(a,a')$ (it's easy to see that $\Delta$ is indeed a well-defined functor), then I claim that there is a natural transformation (more precisely, natural isomorphism) between $\Delta$ and the  identical functor $\mathbbm{1}$.\par
+            In fact, for all $a\in\mathcal{A}$, $\Delta\circ\mathbbm{1}(a)=(a,a)=\mathbbm{1}\circ\Delta(a).$
+        \end{Example}
+        \begin{Def}
+            Given $F:\mathcal{A}\rightarrow\mathcal{B}$ and $G:\mathcal{B}\rightarrow\mathcal{A}$, if $FG\sim\mathbbm{1}$ and $GF\sim\mathbbm{1}$, we say $\mathcal{A}$ and $\mathcal{B}$ are \emph{equivalent categories}.
+        \end{Def}
+        \begin{Note}
+            One should not mistaken \emph{equivalent categories} with \emph{isomorphic categories}. Two categroies are equivalent if and only if there exists a natural isomorphism between the identity functor and any composition of two functors on these two categories.
+        \end{Note}
+        \hfill\par
+        \begin{Example}
+            Suppose $\mathcal{A}$ \emph{admits} product $\underline{\prod}$, by which we mean there exists a functor $\underline{\prod}:\mathcal{A}\times\mathcal{A}\rightarrow\mathcal{A}$ such that $\underline{\prod}((X,Y))=X\prod Y$, and consider another functor $\underline{\prod}'((X,Y))=Y\prod X$, then a question is natrually raised that whether there exists a natural transformation (or even a natural equivalence) $t:\underline{\prod}\rightarrow\underline{\prod}'$.\par
+            In fact, for each $X\times Y\in\mathcal{A}\times\mathcal{A}$, if we define 
+            $$t_{(X,Y)}\left(\underline{\prod}((X,Y))\right)=t\left(X\prod Y\right):=Y\prod X=\underline{\prod}'((X,Y)),$$
+            we're to check that such $t$ is indeed a natural transformation.
+
+            \begin{Proof}
+                First we are to show that such functor $\underline{\prod}$ is well-defined. In fact, A morphism in $\mathcal{A}\times\mathcal{A}$ always takes the form $(f,g)$, where $f:X\rightarrow X'$ and $g:Y\rightarrow Y'$. By the uniqueness of product of $X'\prod Y'$, we know from the diagram
+                $$\xymatrix{X \ar[d]_{f} & X\prod Y\ar[l]\ar[r]\ar @{-->}[d] & Y \ar[d]^{g} \\ X' & X'\prod Y' \ar[l] \ar[r] & Y }$$
+                that there exists uniquely a morphism from $X\prod Y=\underline{\prod}((X,Y))$ to $X'\prod Y'=\underline{\prod}((X',Y'))$, i.e., a direct lifting of morphism $\underline{\prod}((f,g))$. So do $Y\prod X$ and $Y'\prod X'$ with $\underline{\prod}'((g,f))$.\par
+                Collect all information we know in the three-dimensional diagram
+                %%%%%%%%%%%%%%%%% 神TM 三维交换图 %%%%%%%%%%%%%%%%%%%%%%%
+                $$\xymatrix @R=1cm @C=1.5cm{& X\ar @{.>}[ddd]_(0.18){f} & & \\ X\prod Y \ar[rrd]^(0.75){\pi_2}\ar[ddd]|{\underline{\prod}((f,g))} \ar @{-->}[dddrrr]|{~\phi~}\ar[ur]^{\pi_1}\ar[rrr]|{t_{(X,Y)}} & & & Y\prod X\ar[llu]_{\pi_2}\ar[ddd]|{\underline{\prod}'((g,f))}\ar[ld]_{\pi_1}\\ & & Y\ar[ddd]_(0.8){g} & \\ & X' & & \\ X'\prod Y'\ar@{.>}[ur]^{\pi_1}\ar[rrr]|{t_{(X',Y')}}\ar[drr]_{\pi_2} & & & Y'\prod X'\ar@{.>}[llu]^(0.75){\pi_2}\ar[ld]^{\pi_1}\\ & & Y' & }$$
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                Because we already have $\pi_1\circ\underline{\prod}((f,g)): X\prod Y\rightarrow X'$ and $\pi_2\circ\underline{\prod}(f,g): X\prod Y\rightarrow Y'$, by the universal property of $Y'\prod X'$, there must uniquely exist a $\phi$ s.t. 
+                $$\pi_1\circ\phi=\pi_2\circ\underline{\prod}((f,g)),\quad\pi_2\circ\phi=\pi_1\circ\underline{\prod}((f,g)).$$
+                But $t_{(X',Y')} \circ\underline{\prod}((f,g))$ does do the same:
+                \begin{align*}
+                    \pi_1\circ \left(t_{(X',Y')} \circ\underline{\prod}((f,g))\right)&=\pi_2\circ\underline{\prod}((f,g))\\
+                    \pi_2\circ \left(t_{(X',Y')} \circ\underline{\prod}((f,g))\right)&=\pi_1\circ\underline{\prod}((f,g)),
+                \end{align*}
+                so we must have
+                $$\phi=t_{(X',Y')}\circ\underline{\prod}((f,g)).$$
+                Additionally, one can see form the diagram that $\underline{\prod}'((g,f))\circ t_{(X,Y)}$ also does the same as $\phi$, so by the same reason, we also must have
+                $$\underline{\prod}'((g,f))\circ t_{(X,Y)}=\phi.$$
+                Thus the diagram 
+                $$\xymatrix@C=1.5cm @R=1.5cm{ \underline{\prod}((X,Y))\ar[r]^{t_{(X,Y)}}\ar[d]_{\underline{\prod}((f,g))} & \underline{\prod}'((X,Y))\ar[d]^{\underline{\prod}'((g,f))} \\ \underline{\prod}((X',Y'))\ar[r]_{t_{(X',Y')}} & \underline{\prod}'((X',Y'))}$$
+                commutes and the defined $t$ is a natural transformation.
+            \end{Proof}
+        \end{Example}
+
+        \begin{Assign}
+            \begin{itemize}
+                \item R.Geroch, sec 1, pp.15 , exercises 7 to 10.
+            \end{itemize}
+        \end{Assign}
+
+    \section{Adjoint Functors}
+        \begin{Def}[(Adjoint Functor)]
+            Given two functor $F:\mathcal{C}\rightarrow\mathcal{D}$, $G:\mathcal{D}\rightarrow\mathcal{C}$, we say $F$ and $G$ forms a \emph{adjunction} (or are two adjoint functors), denoted $F\dashv G$, provided that there exists an \emph{natural isomorphism} $\eta$ between two functors\footnote{Here we write the domain of these two functors as $\mathcal{C}^*\times\mathcal{D}$ in the sense of covariant functors. Particularly, $F$ is \emph{contravariant} on $\mathcal{C}^*$. I mean, for example, functor $\mathrm{Mor}(*,V_0):\mathbf{Vec}\rightarrow\mathbf{Set}$ is \emph{contravariant} in the usual sense while becoming \emph{covaraint} if we regard it as functor from $\mathbf{Vec}^*$ to $\mathbf{Set}$ because we reverse all arrows.} $\mathrm{Mor}_{\mathcal{D}}(F*,*),\mathrm{Mor}_{\mathcal{C}}(*,G*):\mathcal{C}^*\times\mathcal{D}\rightarrow\mathbf{Set}$, denoted as
+            $$\eta:\mathrm{Mor}(F\mathcal{C},\mathcal{D})\simeq\mathrm{Mor}(\mathcal{C},G\mathcal{D}).$$
+            In other words, for all $X\in\mathcal{C}$ and $Y\in\mathcal{D}$ there is a \emph{natural bijection} between sets $\mathrm{Mor}_{\mathcal{D}}(FX,Y)\simeq\mathrm{Mor}_{\mathcal{C}}(X,GY)$. This isomorphism $\eta$ is called the \emph{adjunction isomorphism}, and  $F$ is called the \emph{left adjoint} while $G$ is the \emph{right adjoint}.
+        \end{Def}
+        \begin{Note}
+            By definition of natural isomorphism, given $F$ (or $G$), its right (left) adjoint is unique up to natural tranformation.
+        \end{Note}
+        \hfill\par
+        \indent To put the natural isomorphism $\eta:\mathrm{Mor}(F\mathcal{A},\mathcal{B})\rightarrow\mathrm{Mor}(\mathcal{A},G\mathcal{B})$ more clearly, let's draw explicitly the following diagram:
+        Given $F:\mathcal{A}\rightarrow\mathcal{B}$, $G:\mathcal{B}\rightarrow\mathcal{A}$, $a,a'\in\mathcal{A}, b,b'\in\mathcal{B}$ and morphisms\footnote{Be careful about the direction of arrows in $\mathcal{C}^*$ here !} $\alpha:a'\rightarrow a, \beta: b\rightarrow b'$, one can draw the left commutative diagram in the sense of product category $\mathcal{A}^*\times\mathcal{B}$ and right one in the sense of $\mathbf{Set}$ by definition of natural transformation\footnote{Recall the definition of functors of Cartesian-product categories we introduced before. If you're not comfortable with the notation here, you can use the neater one $\mathsf{F}, \mathsf{G}:\mathcal{A}^*\times\mathcal{B}\rightarrow\mathbf{Set}$ such that $\mathsf{F}(a,b):=\mathrm{Mor}(Fa,b)$ and  $\mathsf{G}(a,b):=\mathrm{Mor}(a,Gb)$. The same goes to morphisms.}:
+        %%%%% **[l] 强制左移object
+        $$\xymatrix{(a,b)\ar[d]_{(\alpha,\beta)} & \mathrm{Mor}(Fa,b) \ar[r]^{\eta_{(a,b)}} \ar[d]_{\mathrm{Mor}(F(\alpha),\beta)} & \mathrm{Mor}(a,Gb) \ar[d]^{\mathrm{Mor}(\alpha,G(\beta))} \\(a',b') & \mathrm{Mor}(Fa',b') \ar[r]^{\eta_{(a',b')}} & \mathrm{Mor}(a',Gb')},$$
+        i.e.,
+        $$\mathrm{Mor}(\alpha,G(\beta))\circ\eta_{(a,b)}=\eta_{(a',b')}\circ\mathrm{Mor}(F(\alpha),\beta).$$
+        \begin{Proposition}
+            Let $\theta\in\mathrm{Mor}(Fa,b)$, one can naturally (and only) define 
+            $$\mathrm{Mor}(F(\alpha),\beta)(\theta)=\beta\circ\theta\circ F(\alpha)$$
+            because $F$ \emph{covariantly} acting on $\alpha$. Similarly, we must have
+            $$\mathrm{Mor}(\alpha,G\beta)\bigg(\eta_{(a,b)}(\theta)\bigg)=G(\beta)\circ\eta_{(a,b)}(\theta)\circ\alpha.$$
+            Thus from the commutative diagram we finally get an important relation:
+            $$\eta_{(a',b')}(\beta\circ\theta\circ F(\alpha))=G(\beta)\circ\eta_{(a,b)}(\theta)\circ\alpha.$$
+        \end{Proposition}
+        \begin{Example}
+            Given $\mathcal{A}$, consider the \emph{duplication functor} $\mathsf{Dup}:\mathcal{A}\rightarrow\mathcal{A}\times\mathcal{A}$ defined as $a\mapsto(a,a)$. Suppose $\mathcal{A}$ admits products, by which we mean there exists $\underline{\prod}:\mathcal{A}\times\mathcal{A}\rightarrow\mathcal{A}$ such that $\underline{\prod}((X,Y))=X\prod Y$, then we claim that $\mathsf{Dup}\mathop{\dashv}\underline{\prod}$.
+            \begin{Proof}
+                Let $a,b_1,b_2\in\mathcal{A}$ then $(a,a),(b_1,b_2)\in\mathcal{A}\times\mathcal{A}$. So does $a',b_1',b_2'$. Let $\alpha:a'\rightarrow a$ and $\beta_i:b_i\rightarrow b_i'$ with $i=1,2$, then by the proposition above, we need to show that
+                $$\eta_{(a',(b_1',b_2'))}\bigg((\beta_1,\beta_2)\circ(\theta_1,\theta_2)\circ(\alpha_1,\alpha_2)\bigg)=G(\beta)\circ\eta_{(a,(b_1,b_2))}\left((\theta_1,\theta_2)\right)\circ\alpha,$$
+                where $G(\beta)\equiv G(\beta_1,\beta_2)=\underline{\prod}((\beta_1,\beta_2))$ from $G((b_1,b_2))=b_1\prod b_2$ to $G((b_1',b_2'))=b_1'\prod b_2'$, $\theta\equiv(\theta_1,\theta_2)\in\mathrm{Mor}(Fa,(b_1,b_2)):(a,a)\rightarrow(b_1,b_2)$ such that $\theta_i:a\rightarrow b_i$ for $i=1,2$. Let's draw the diagram to reveal the univeresal property of product here:
+                $$\xymatrix{ & & & b_1 \ar[ddd]^(.3){\beta_1} & \\ a \ar[rr]^-{t}\ar@/^1.3pc/[rrru]^(.4){\theta_1}\ar@/_1.5pc/[rrrrd]_(.3){\theta_2}\ar[ddd]_{\alpha} & & b_1\prod b_2 \ar[ru]^{\pi_1}\ar[rrd]_(.4){\pi_2}\ar[ddd]_{G(\beta)} & & \\ & & & & b_2\ar[ddd]^{\beta_2} \\ & & & b_1' & \\ a' \ar[rr]^-{t'} & & b_1'\prod b_2' \ar[ru]^{\pi_1'}\ar[rrd]^{\pi_2'} & & \\ & & & & b_2'}$$
+                First, $\beta\circ\theta\circ\alpha$ uniquely gives us $t'$ by the universal property of $b_1'\prod b_2'$, i.e., 
+                $$\pi_i'\circ t'=\beta_i\circ\theta_i\circ\alpha.$$
+                Similarly, $\theta$ uniquely gives us $t$. Also, funtoriality of $\underline{\prod}$ gives us $G(\beta)$. Thus
+                $$\pi_i'\circ G(\beta)\circ t=\beta_i\circ\pi_i\circ t=\beta_i\circ\theta_i$$
+                gives
+                $$\pi_i'\circ t'=\beta_i\circ\theta_i\circ\alpha=\pi_i'\circ G(\beta)\circ t\circ\alpha.$$
+                But by the uniqueness of products, we find
+                $$t'=G(\beta)\circ t\circ \alpha.$$
+                Thus we are done.
+            \end{Proof}
+        \end{Example}
+
+\chapter{Groups Categories}
+
+    \section{Group}
+        We begin with a heuristic example
+        \begin{Example}[(Symmetry of Space-time)]
+            Denote the operation of rotation as $r$ and the composition of rotation as $r_1\times r_2=r_3$ (this is true by definition of rotation), one can easily show that $r$ subject to the following properties:
+            \begin{align*}
+                &\text{(a) }\text{Associativity: }(r_1*r_2)*r_3=r_1*(r_2*r_3),\\
+                &\text{(b) }\text{Existence of trivial rotation: }e*r=r=r*e,\\
+                &\text{(c) }\text{Existence of Inverse: }\forall r, \exists r^{-1}, r*r^{-1}=e=r^{-1}*r.                
+            \end{align*}
+            Particularly in four-dimensional Minkowski space, we call this a Lorentz group.\par
+            And adding the translation in Euclid space froms an Euclidian Group while in Minkowski space forms a Poincar$\acute{\text{e}}$ group.
+        \end{Example}
+        Extract the structure above, we have
+        \begin{Def}[(Group)]
+            A group is a set $G$ together with a map $*:G\times G\rightarrow G$ satisfing that for all $a,b,c\in G$, $a*(b*c)=(a*b)*c$, there exists a \emph{unit element} $e\in G$ such that $a*e=e*a=e$, and an \emph{inverese} $a^{-1}\in G$ such that $a*a^{-1}=e$.
+        \end{Def}
+        \begin{Example}\hfill\par
+            Addition group: $\mathbb{Z,R,Q,C}(+,0,-)$\par
+            Multiplication group: Denote $\mathbb{Q}\backslash{0}$ as $\mathbb{Q}^*$, then $\mathbb{Q^*,R^*,C^*}(\times,1,\alpha\rightarrow\frac{1}{\alpha})$ forms a group.\par
+            Permutation group: Permutation of a set is an isomorphism from $S$ to $S$, then $(~\circ~,\mathbbm{1},{~*~}^{-1})$, where ``$*$'' are isomorphisms, forms a group.\par
+            Matrix group: Matrix multiplication of invertible matrices $(\times,\mathbbm{1},*^{-1})$ froms a group. We call this the \emph{automorphism} on a vector spaces.
+        \end{Example}
+        \begin{Def}[(Category of Groups)]
+            We call $\mathbf{Grp}$ the \emph{category of group}, if objects of which are groups (sets whose elements are elements of groups) and morphism $\varphi:A\rightarrow B$ are \emph{homomorphisms}, by which we mean they satisfies
+            $$\forall a,b\in A,\quad\varphi(a)\varphi(b)=\varphi(ab),\quad\varphi(a^{-1})=\varphi(a)^{-1},$$
+            in addition to $\varphi(e)=e$ for one $e\in A$.\par
+            Particularly, we denote the category of Abelian group as $\mathbf{AbG}$.
+        \end{Def}
+        Now that $\mathbf{Grp}$ is a category, a natural question is raised that what is the poduct and co-product on it? In fact, since the objects in $\mathbf{Grp}$ is the same as those in $\mathbf{Set}$ (with an extra structure of group multiplication) and the canonical projection is compatible of this structure, thus we must have the same claim that:
+        \begin{Proposition}
+            The product of $\mathbf{Grp}$ is exactly the Cartesian product of it, in which elements take the form $(a,b)$ with both $a,b\in A$.
+        \end{Proposition}
+        \begin{Proof}
+            The same as what we have done in $\mathbf{Set}$. What leave to us to check, first is that the multiplication rule $(a,b)(c,d)=(ac,bd)$ is indeed the multiplication of a group, which is obvious, and second, that the canonical projection is morphism in $\mathbf{Grp}$. In fact, for any two $(a,b)$ and $(c,d)$, we both have 
+            $$\pi_1((a,b)(c,d))=\pi_1((ac,bd))=ac$$
+            and $\pi_1(a,b)\pi_1(c,d)=ac$.
+        \end{Proof}
+        \begin{Def}[(Initial and Terminal Objects)]
+            We call an object $A\in\mathcal{C}$ the \emph{terminal object} if for any object $B\in\mathcal{C}$, there exists only one morphism $\phi_B:B\rightarrow A$, And $A$ the \emph{initial object} if we reverse the arrow.
+        \end{Def}
+        \begin{Example}
+            $\varnothing$ is the initial object of $\mathbf{Set}$, while any one element set is the terminal object of $\mathbf{Set}$.
+        \end{Example}
+        \begin{Lemma}
+            Set $\{e\}$ is both the \emph{initial} and \emph{terminal} object of $\mathbf{Grp}$.
+        \end{Lemma}
+        \begin{Proof}
+            For all $a\in A$, we (can only) define the morphism by\footnote{Do not mistaken the defined homomorphism $\phi$ and the inverse of some elements of object $A$ here, even though the latter one seems to has the same effect on group elements. That is, up to now all we involved in are properties of homomorphism, rather than the inverse elements.} $\phi(a)=e$ (and so $\phi$ is unique), and it's easy to check that $\phi$ is indeed a homomorphism. Also, for the only element of $\{e\}$, we define the morphism by $\psi(e)=e\in A$. This $\psi$ is unique because of the property of homomorphism.
+        \end{Proof}
+        Use this fact we can define the morphism $e:A\rightarrow A$ by making the diagram
+        $$\xymatrix{A \ar[r]^{\phi}\ar @/_1.5pc/[rr]_{e} & \{e\} \ar[r]^{\psi} & A},$$
+        commutes, or\footnote{Here's some abuse of notaion. The left ``e'' is morphism while the right ``e'' indicates the unit element of object $A$.} $\forall a\in A, e(a)=e$. \par
+        Besides, we define the inverse morphism $\text{inv.}:A\rightarrow A$ as
+        $$\forall a\in A, \text{inv.}(a)=a^{-1},$$
+        the \emph{duplication morphism} $\Delta:A\rightarrow A\times A$ such that $\Delta(a)=(a,a)$, and the multiplication morphism $*:A\times A\rightarrow A$ such that $*(a,b)=ab$. All above can be show that they are indeed morphisms (at least in the sense of $\mathbf{Set}$\footnote{In fact, the multiplication mapping is \emph{not} a homomorphism (and thus a morphism in $\mathbf{Grp}$): $\forall (a,b),(a,d)\in A\times A$, we have $*((a,b)(c,d))=*((ac,bd))=acbd=*(a,b)*$, but on the other hand $*(a,b)\cdot*(c,d)=abcd$.}).\par
+        Equipped with all defined morphisms above, we can now re-express all the properties of groups in commutative diagrams (because of the annoying multiplication morphism, here I mean in the sense of $\mathbf{Set}$ rather than $\mathbf{Grp}$)
+            $$\text{Associativity of group product:}\xymatrix @C=0.15cm{ & A\times A\times A \ar[dr]^{\mathbbm{1}\times *}\ar[ld]_{*\times\mathbbm{1}} & \\ A\times A \ar[rd]_{*} & & A\times A\ar[ld]^{*} \\ & A & ,}$$
+            $$\text{Exsitence of the unit element:}\xymatrix{ & A\times A\ar[dr]^{*} & \\ A\times A\ar[dr]_{\mathbbm{1}\times e}\ar[ur]^{e\times \mathbbm{1}} & A \ar[l]_-{\Delta}\ar[r]^{\mathbbm{1}} & A \\ & A\times A\ar[ru]_{*} & ,}$$
+            $$\text{Exsistence of the inverse:\quad}\xymatrix{ & & A\times A \ar[rd]^{*}& \\ A\ar[r]^-{\Delta} & A\times A \ar[ur]^{\text{inv.}\times \mathbbm{1}}\ar[rd]_{\mathbbm{1}\times \text{inv.}}\ar[rr]^-{e} & & A \\ & & A \times A\ar[ur]_{*} & .}$$
+        \begin{Proposition}
+            Monomorphisms in $\mathbf{Grp}$ are one-to-one.
+        \end{Proposition}
+        \begin{Proof}
+            First, assume $\varphi:A\rightarrow B$ is a one-to-one group homomorphism. Suppose $\varphi\circ\chi_1=\varphi\circ\chi_2$, then for any $a$, we have $\chi_1(a)\neq\chi_2(a)\implies\varphi\circ\chi_1(a)\neq\varphi\circ\chi_2(a)$, which contradict to the suppose, so $\chi_1(a)=\chi_2(a)\implies\chi_1=\chi_2$ and thus $\varphi$ is monic.\par
+            Second, assum $\varphi$ is monic, and we want to show that $\varphi$ is one-to-one. In fact, this is the same as showing $\varphi(x)=e\implies x=e$ becaues one-to-one means if $a\neq b$, we have $\varphi(a)\neq\varphi(b)$, which is equivalent to $\varphi(a)\varphi(b)^{-1}=\varphi(ab^{-1})\neq e$. Let $y$ be element such that $\varphi(y)=e$. Consider $\mathbb{Z}$ and defnie $\chi_i:\mathbb{Z}\rightarrow G, i=1,2$ with $\chi_1(n)=e$ and $\chi_2(n)=y^n$. Then $\varphi\circ\chi_1=\varphi\circ\chi_2\implies\chi_1=\chi_2\implies y=\chi_2(1)=\chi_1(1)=e$ and we are done.
+        \end{Proof}
+        \begin{Def}
+            Subgroup is fist the subset of a group and also a group.
+        \end{Def}
+        \begin{Proposition}
+            $\mathrm{Ker}(\varphi):=\varphi^{-1}(\{e\})$ is a subgroup of $G$
+        \end{Proposition}
+        \begin{Proof}
+            Easy.
+        \end{Proof}
+        \begin{Example}
+            $\forall y\in G$, $n\mapsto y^n$ defines a homomorphism $\displaystyle\mathbb{Z}\mathop{\rightarrow}^{\chi}G$. It's easy to see that $\mathrm{Im}\chi$ is an Abelian subgroup of $G$.
+        \end{Example}
+        \begin{Assign}
+            \begin{itemize}
+                \item R. Georoch, section three, pp. 22, exercise 12, 15, 21, 24.
+            \end{itemize}
+        \end{Assign}
+        \begin{Def}[(Permutation Group)]
+            For $X\in\mathbf{Set}$, all isomorphism in $\mathrm{Mor}(X,X)$ forms a group, known as the \emph{permutation group} $\mathrm{Perm}(x)$.
+        \end{Def}
+        \begin{Proposition}
+            Every group is the subgroup of a permutation gruop.
+        \end{Proposition}
+        \begin{Proof}
+            We prove it by construction. For a group $G$, given $x\in G$, we define $\varphi:G\rightarrow\mathrm{Perm}(G)$ such that $\varphi_x:G\rightarrow G$ by $\varphi_x(y)=xy$ for all $y\in G$. This $\varphi_x$ is indeed a isomorophism of $G$ because there always exists a $\varphi_{x^{-1}}$ such that 
+            $$\varphi_x\circ\varphi_{x^{-1}}(y)=x^{-1}(xy)=y.$$
+            Thus $\varphi_{x}$ is a permutation of $G$. Next, we need to prove that $\varphi_x$ is a group homomorphism:
+            \begin{align*}
+                \varphi_{x_1 x_2}(y)&=(x_1 x_2)y=x_1(x_2 y)=\varphi_{x_1}\circ\varphi_{x_2}(y),\\
+                \varphi_e(y)&=ey=y=\mathbbm{1}y,\\
+                \varphi_{x^{-1}x}(y)&=\varphi_{x^{-1}}\circ\varphi_{x}(y)=\mathbbm{1}(y).
+            \end{align*}
+            To show $G$ is the subgroup of $\mathrm{Perm}(G)$, we need to show that $\varphi$ is still monic. In fact, for any group $H$ in $\mathbf{Grp}$ and two morphisms $\alpha,\alpha'$ form $H$ to $G$, suppose 
+            $$\varphi\circ\alpha=\varphi\circ\alpha',$$
+            i.e., for any $y\in H$, $\varphi\circ\alpha(y)=\varphi(\alpha(y))=\varphi_{\alpha(y)}=\varphi_{\alpha'(y)}$. Then for any $x\in G$,
+             by the uniqueness of inverse of any elements:
+            $$\varphi_{\alpha(y)}(x)=\varphi_{\alpha'(y)}(x)\implies \alpha(y)(x)=\alpha'(y)(x)\implies \alpha(y)=\alpha'(y), \forall y.$$
+            Thus $\alpha=\alpha'$ and so $\varphi$ is a monomorphism and we succeed in constructing a group $G$ as the subgroup of $\mathrm{Perm}(G)$.
+        \end{Proof}
+        \begin{Example}
+            For $\mathrm{Perm}(N)$, the subgroup that leaves $n\leqslant N$ invariant forms a group named $\mathrm{Perm}(N-n)$; The group that leaves the subset\footnote{By which I do \emph{not} means that elements of the set is unchanged under the permutation.} $\{1,2,\cdots,n\}$ invariant also forms a group, denoted as $\mathrm{Perm}(n)\times\mathrm{Perm}(N-n)$.\par
+            Generalize the case above, we can write the subgroup $\mathrm{Perm}(n_1)\times\cdots\times\mathrm{Perm}(n_k)$ with $\sum_k n_k=N$. Particularly, if $n_i=n_j$, then we can also allow swapping block $i$ with block $j$.
+        \end{Example}
+        \begin{Example}
+            The group of homeomorphism of topological space. point-stablizer, open set-stablize and so on.
+        \end{Example}
+
+    \section{Free Group}
+            \begin{Def}
+                Given a set $S=\{a,b,\cdots\}$, we define a group $G$, called the \emph{free group} generated by $S$, as that each element corresponds to a group element $\theta:S\rightarrow G$ by $\theta(a)=a$, $\bar{a}=(\theta(a))^{(-1)}=a^{-1}$ and $\theta(a)\theta(b)=ab$.\par
+                In other words, elements in $G$ are ``words'' such as $abdda\bar{e}c$ but no adjacent letter and its inverse such as $a\bar{a}$ or $\bar{a}a$. That is to say, the unit element is \emph{null space}. And the group multiplication is just combining two words, removing all empty spaces. For example
+                $$(ab\bar{d}ef\bar{g})(g\bar{f}\bar{c}ek)=ab\bar{d}ek.$$
+                Associativity is obvious.
+            \end{Def}
+            \begin{Example}
+                \begin{itemize}
+                    \item Free group generated by $\{~\}$ is the trivial group;
+                    \item Free group generated by $\{a\}$ has elements only taking the forms of $a\cdots a,\bar{a}\cdots\bar{a}$, including the \emph{null word}. One can easily construct an isomorphism from this group to $\mathbb{Z}$.
+                    \item Group generated by $\{a,b\}$ with a imposing extra rule that makes it abelian, i.e., $ab=ba$ and $aba^{-1}b^{-1}=\mathbbm{1}$, though is no longer free anymore, but plays an important role in future. One can eaisly see that this group is isomorphis to $\mathbb{Z}\times\mathbb{Z}$.
+                \end{itemize}
+            \end{Example}
+        \subsection{Universal construction}
+            \begin{Def}
+                A free group $G$ generated by a set $S$ is defined as that for any another groug $G'$ and set map $\theta':S\rightarrow G'$, there \emph{uniquely} exists a group homomorphism $\mu:G\rightarrow G'$ with $\theta'=\mu\circ\theta$, or making the diagram
+                $$\xymatrix{S\ar[r]^{\theta}\ar[rd]_{\theta'} & G \ar @{-->}[d]^{\mu}\\ & G'}.$$
+                commutes.
+            \end{Def}
+            \begin{Note}
+                By ``universal'', we mean the concept has some flavor of category.
+            \end{Note}
+            Next we need to prove that such free Groups does exist and is unique.
+            \begin{Proposition}
+                Free group is unique up to group isomorphism.
+            \end{Proposition}
+            \begin{Proof}
+                Suppose both $G$ and $G'$ are generated by $S$. From definition there must uniquely exists a homomorphism $\mu:G\rightarrow G'$ such that $\theta'=\mu\circ\theta$. Similarly, there uniquely exists a $\mu':G'\rightarrow G$ such that $\theta=\mu'\circ\theta'$. So
+                $$\theta=(\mu'\circ\mu)\circ\theta,\quad \theta'=(\mu\circ\mu')\circ\theta'.$$
+                But the identity map has the same effect, thus by uniqueness we must have
+                $$\mu'\circ\mu=\mu\circ\mu'=\mathbbm{1}.$$
+            \end{Proof}
+            \begin{Proposition}
+                The word group we defined before is a free group.
+            \end{Proposition}
+            \begin{Proof} % 注意此处前双引号用法
+                Define $\theta(x)={}''x'' $ as before and suppose we have another group $G'$ and set mapping $\theta':S\rightarrow G'$, we define a group homomorphism $\mu:G\rightarrow G'$ by first dividing the words then mapping them respectively by $\theta'$. For example, $\mu:{}''a\bar{b}''\mapsto\theta'(a)\theta'(b)^{(-1)}$. Then of course this makes the diagram commute, i.e., $\forall a\in S$, we have $\mu\circ\theta(a)=\mu(''a'')=\theta'(a)$.\par
+                Universal property is easy: Let $\nu:G\rightarrow G'$ be a homomorphism also making the diagram commutes, or $\nu\circ\theta=\theta'$. Then, for example, $\nu(''a\bar{b}'')=\nu(''a'')\nu(''b'')^{-1}=\mu(''a\bar{b}'')$.
+            \end{Proof}
+
+    \section{Free and Underlying Functor}
+        \begin{Def}[(Faithful)]
+            Given a functor $F:\mathcal{A}\rightarrow\mathcal{B}$ is said to be \emph{faithful} if for $x,y\in\mathcal{A}$, $F:\mathrm{Mor}(x,y)\rightarrow\mathrm{Mor}(Fx,Fy)$ is one-to-one.
+        \end{Def}
+        \begin{Example}
+            $\displaystyle\mathbf{Grp}\mathop{\rightarrow}^{U}\mathbf{Set}$.
+        \end{Example}
+        \begin{Def}[(Forgetful (Underlying) Functor)]
+            If $\mathrm{Mor}(Fx,Fy)\supsetneq F\bigg(\mathrm{Mor}(x,y)\bigg)$, then we say the functor $F$ \emph{forgets} certain feature of $\mathcal{A}$, or a \emph{underlying functor}.
+        \end{Def}
+        \begin{Example}
+            $\mathbf{Vec}\rightarrow\mathbf{Set}$ and $\mathbf{Vec}\rightarrow\mathbf{Grp}\rightarrow\mathbf{Set}$ because linear space is first an abelian group.\par
+            The forgetful functor from $\mathbf{Grp}$ to $\mathbf{Set}$ forgets the group structure of a group, remembering only the underlying set.
+        \end{Example}
+        \begin{Theorem}
+            Every free functor $F$ is the left adjoint of the corresponding underlying functor $U$, i.e., $F\dashv U$. 
+        \end{Theorem}
+        \begin{Proof}
+            We skip the general proof here but give one explicit example below.
+        \end{Proof}
+        \begin{Example}[(此例疑有误)]
+            Previously, by definition of free generated group, we know that there are subtlies in the commutative diagram, now we are to make is rigorous in category theory.\par
+            Given $S\in\mathbf{Set}$ and a funtor from $A=\mathbf{Set}$ to $B=\mathbf{Grp}$, and let $U$ be the underlying functor, one-to-one\footnote{Elements in a set to a ``word''.} mapping $\alpha:S\rightarrow UFS$, $\alpha':S\rightarrow U(G)$. We have
+            $$\xymatrix{S\ar[r]^{\alpha}\ar[rd]_{\theta} & UF(S)\ar[d]^{U(\mu)}  & F(S)\ar[d]^{\mu=\lambda(\theta)} \\ & U(G) & G}.$$ 
+            where the universal construction $\theta=U(\lambda(\theta))\circ\alpha$. $\alpha'\longmapsto\mu$, $\displaystyle\mathrm{Mor}(S,U(G))\mathop{\rightarrow}^{\eta}\mathrm{Mor}(F(S),G)$.\par
+            \hfill\par
+            We need to prove the natural transformation:\par
+            Consider $f:S'\rightarrow f$, $g:G\rightarrow G'$, $\mathrm{Mor}(f,U(g)):\mathrm{Mor}(S,U(G))\rightarrow\mathrm{Mor}(S',U(G))$ such that $\beta\longmapsto U(g)\circ\beta\circ f$ where $\beta\in\mathrm{Mor}(S,U(G))$. The diagram is illustrated as follows:
+            $$\xymatrix{\mathrm{Mor}(S,U(G))\ar[d]_{\mathrm{Mor}(f,U(g))}\ar[r]^{\lambda_{S,G}} & \mathrm{Mor}(F(S),G)\ar[d]^{\mathrm{Mor}(F(f),G)} \\ \mathrm{Mor}(S',U(G'))\ar[r]^{\lambda}_{S',G'} & \mathrm{Mor}(F(S'),G')}.$$
+            Thus we have
+            $$\lambda_{S',G'}\circ\mathrm{Mor}(f,U(g))(\beta)=\lambda_{S',G'}(U(g)\circ\beta\circ f)$$
+            and 
+            $$\mathrm{Mor}(F(f),g)\circ\lambda_{S,G}(\beta)=g\circ\lambda_{S,G}(\beta)\circ F(f)$$
+            and
+            $$U(\lambda_{S',G'}(U(g)\circ\beta\circ f))\circ\alpha=U(g)\circ\beta\circ f$$
+            and
+            \begin{equation}\label{1}
+                U(g\circ\lambda_{S,G}(\beta)\circ F(f))\circ\alpha=U(g)\circ U(\lambda_{S,G}(\beta))\circ UF(f)\circ\alpha.
+            \end{equation}
+            What we want to find is a natural transformation from functor $\mathbbm{1}$ to $UF$, i.e., making the diagram 
+            $$\xymatrix{S\ar[r]^{\alpha} & UF(S) \\ S'\ar[u]^{f}\ar[r]^{\alpha'} & UF(S')\ar[u]_{UF(f)}}$$
+            commutes.\par
+            In fact, given $f:S'\rightarrow S$ and let $a\in S'$, $b=f(a)$. Then
+            $$\alpha\circ f(a)=\alpha(b)=''b''$$
+            and $F(f)(''a'')=''b''$ because $UF(f)=U(F(f))$. As a group homomorphism, now $UF(f)(''a'')=(''b'')\implies UF(f)\circ\alpha'(a)=''b''=\alpha\circ f(a)$ for any $a\in S'$ and so the diagram does commutes.\par
+            So \eqref{1} becomes
+            \begin{align*}
+                U(g\circ\lambda_{S,G}(\beta)\circ F(f))\circ\alpha&=U(g)\circ U(\lambda_{S,G}(\beta))\circ\alpha\circ f=U(g)\circ\beta\circ f\\
+                &=U(\lambda_{S',G'}(U(g)\circ\beta\circ f))\circ\alpha,
+            \end{align*}
+            but note that $U$ is also one-to-one since it's a underlying functor and $\alpha$ is monic, hence we finally get $\lambda:\mathrm{Mor}(S,U(G))\rightarrow\mathrm{Mor}(F(S),G)$ is natural transformation ans we're done.
+        \end{Example}
+        \begin{Note}
+            To put it more explicit, we now give a group homomorphism $\mu:F(S)\rightarrow G$ and define $\theta':S\rightarrow U(G)$ by $a\mapsto\mu(''a'')$, this defines $\displaystyle\mathrm{Mor}(F(S),G)\mathop{\rightarrow}^{\eta}\mathrm{Mor}(S,U(G))$. If we start with $\theta:S\rightarrow U(G)$ such that $\theta(a)=X\in U(G)$, then $\mu(a)=X$ and then $\theta'(a)=X\theta(a)\implies\theta'=\theta$. Therefore we get $\eta\circ\lambda=\mathbbm{1}$ and similarly vice versa.
+        \end{Note}
+        \begin{Assign}
+            \begin{itemize}
+                \item Robert George. pp 22. chapter three problem 14,16,19.
+            \end{itemize}
+        \end{Assign}
+
+    \section{Subgroup}
+        Here are some additional References:\par
+            1) Conceptural Mathematics.\par
+            2) Category for the scientists.\par
+            3) Survegy of Modern Algebra (undergraduate)\par
+            4) S.Lang, Algebra.
+        \begin{Theorem}
+            Given a group $G$ and a colletion of its subgroups $H_i$, $i\in I$. Then the intersection $H=\displaystyle\bigcap_{i\in I}H_i$ is also a subgroup of $G$.
+        \end{Theorem}
+        \begin{Proof}
+            First, $H\subset G$. Second, for $x,y\in H$ and $x,y\in H_i$ for some $i$, then $x*y,x^{-1}\in H_i\implies x*y\in H,x^{-1}\in H$. Lastly, for $e\in H_i$, we have $e\in H$. Thus $H$ is a subgroup of $G$, or 
+            $\xymatrix{H~~\ar@{>>->}[r]^{i} & G}$.
+        \end{Proof}
+        \begin{Note}
+            Note that such $H$ is the largest subgroup of $G$ contained in all $H_i$. It is also a subgroup of all $H_i$.
+        \end{Note}
+
+        \begin{Def}
+            Given a subset $S$ of a group $G$. The insersection $G_S$ of all subgroups containing $S$ is called the subgroup generated by $S$.
+        \end{Def}
+        Suppose there is a subgroup $G_0\subset G_S$ such that $S\subset G_0$. Then by definition, $G_S\subset G_0$ tells that $G_S$ the smallest subgroup of $G$ containing $S$. Obviously $G_S$ can be obtained by arbitrary products of elements of $S$ and their inverses.
+
+        \subsection{Adjoint Action}
+            Recall the monic ``left action'' we discussed before $\xymatrix{\varphi_L:G~~\ar@{>->}[r]&\mathrm{Perm}(UG)}$, where $U$ is the underling function such that $\varphi_L(x):y\mapsto xy$. Similarly, we can define the right action $\varphi_R(x):y\mapsto yx$ and $\varphi_R(x_1 x_2):y\mapsto yx_1 x_2$. But the composition of $\varphi_R$ gives $\varphi_R(x_1)\circ\varphi_R(x_2):y\mapsto yx_2 x_1$. So $\varphi_R$ is indeed an \emph{anti-homomorphism}:
+            $$\varphi_R(x_1 x_2)=\varphi_R(x_2)\circ\varphi_R(x_1).$$
+            As a contrast, $\varphi_{R}'(x):y\mapsto yx^{-1}$ is a \emph{homomorphism}.\par
+            \begin{Def}[(Adjoint Action)]
+                The adjoint action is defined by $\varphi_{\mathrm{ad}}(x):y\mapsto xyx^{-1}=\mathrm{Ad}_x(y)$. And since $xy_1 x^{-1}=xy_2 x^{-1}\implies y_1=y_2$, we still have $\varphi_{\mathrm{ad}}:G\rightarrow\mathrm{Perm}(G)$.
+            \end{Def}
+            This adjoint action is in general a \emph{momomorphism}. But a counterexample is Abelian group, which makes $\varphi_{\mathrm{ad}}(x)=\varphi_{\mathrm{ad}}(e)$.\par
+            Such adjoint action plays an important role in the representation of Lie algebra, cf. GTM222.
+            \begin{Example}
+                In QM, operators in Heisenberg picture takes the form of
+                $$X(t)=U^{-1}(t)X(0)U(t).$$
+                And since unitary operation in Hilbert space forms a group, this is a adjoint action on set of all observables.
+            \end{Example}
+            \begin{Property}
+                Given any subgroup $H\subset G$, then $\forall x\in G$, $\mathrm{Ad}_{x}H$ is again a subgroup.
+            \end{Property}
+            \begin{Proof}
+                For all $y_1,y_2\in H$, $(xy_1 x^{-1})^{-1}=xy_1^{-1}x^{-1}\in\mathrm{Ad}_{x} H$ and $(xy_1 x^{-1})(xy_2 x^{-1})=x(y_1 y_2)x^{-1}\in\mathrm{Ad}_x H$.
+            \end{Proof}
+            It is easy to prove that $\mathrm{Ad}_{x}H$ for different $x$ are all isomorphic as group (one-to-one and onto). As a permutation of $G$ it maps subgroups to subgroups.
+            \begin{Def}[(Left Coset)]
+                If $A,B\subset G$, we denote $AB=\{x*y|x\in A,y\in B\}$. Let $H$ be a subgroup of $G$, then for $x\in G$, $xH$ is called the left coset while $Hx$ is called the right coset.
+            \end{Def}
+            \begin{Theorem}
+                Given subgroup $H$ of $G$, then\par
+                1) Any two left cosets are either the same or totally disjoint, but isomorphic as sets.\par
+                2) Every elements $x\in G$ belongs one and only one coset, $xH$.
+            \end{Theorem}
+            \begin{Proof}
+                1). Let $x_1 H\bigcap x_2 H$ be not empty, i.e., there exists $h_1,h_2\in H$ such that $x_1 h_1=x_2 h_2\implies x_2=x_1 h_1 h_2^{-1}\in x_1 H$. Similarly, $x_1\in x_2 H$. So $x_1 H=x_2 H$. Isomorphism is trivial.\par
+                2). Obviously since $x\in xH$.
+            \end{Proof}
+            \begin{Corollary}
+                If a finite group $G$ has finite number of elements, we call it the \emph{order} of group, sometimes denoted as $|G|$. Then for a finite group $G$, the order of its subgroup must divide that of $G$.
+            \end{Corollary}
+            In fact, a more precise result is the celebrated \emph{lagrangian theorem}.
+            \begin{Theorem}[(Lagrangian Theorem)]
+                Denote the number of left (right) quotient subgroup $H$ of a group $G$ as $[G:H]$, called the \emph{index}, then we have
+                $$|G|=|H|\cdot[G:H]$$
+            \end{Theorem}
+            \begin{Example}
+                A group of prime number order only has subgroup itself and the trivial one.
+            \end{Example}
+            \begin{Corollary}
+                A group of prime order must be the \emph{cyclic group}.
+            \end{Corollary}
+            \begin{Proof}
+                Suppose $|G|=p$ is a prime number, since $p\geqslant2$, there exists at least one nontrivial element $a$. We denote  the cyclic group generated by $a$ as $\langle a\rangle$. Because $\langle a\rangle$ is the subgroup of $G$, we must have $|\langle a\rangle|\bigg|p\implies|\langle a\rangle|=p$, so $\langle a\rangle=G$.
+            \end{Proof}
+            \indent This also gives two relations between $G$ and the set of its $H$-cosets that $G\rightarrow L=G/H$ and $\varphi:G\rightarrow\mathrm{Perm}(L)$ such that $\varphi(x):yH\mapsto xyH$.
+            \begin{Def}
+                Given subgroup $H$ of $G$. If $xH=Hx$ for all $x\in G$, then $H$ is \emph{normal}.
+            \end{Def}
+            It's trivial that any subgroup of an Abelian group is normal since $\mathrm{Ad}_x H=H$.\par
+            \begin{Example}
+                Subgroup of $\mathrm{Perm}(S)$ that only fixed $[x_1,\cdots,x_n]$ is not trivial, but those only affect finite number of (any) elements is normal.
+            \end{Example}
+            \begin{Def}
+                If $H$ is normal, then $G\rightarrow L=G/H$ is group homomorphims. On $L$,
+                $$e:=\varphi(H),\quad \varphi(xH)\varphi(yH):=\varphi(xyH),\quad(\varphi(xH))^{-1}:=\varphi(x^{-1}H).$$
+                We call $G/H$ the \emph{quotient group}.
+            \end{Def}
+            \begin{Example}
+                Given a group $G$, the commutator subgroup $H$ is generated\footnote{Here by ``generate'', we mean that this group is the smallest one containing sets of the form $\{xyx^{-1}y^{-1}\}$, which is surely not a group under the group multiplication since it is not close, i.e., $\displaystyle H=\bigcap_{i\in I}H_i$, where $H_i$ is some gruop containing such a set.} by $\{xyx^{-1}y^{-1}|x,y\in G\}$. One can easily see that this subgroup is essentially normal and then $G/H$ is Abelian.
+            \end{Example}
+
+\chapter{Linear Space Cateroires}
+
+    \section{Vector Space}
+        \begin{Def}
+            Given a set $S$, if relation $\leqslant$ satisfies:\par
+            1). $x\leqslant x$,\par
+            2). $x\leqslant y\implies y\leqslant z$,\par
+            3). $x\leqslant y, y\leqslant x\implies x=y$,\par
+            we call $\leqslant$ a \emph{partial relation ordering}, and pair $(S,\leqslant)$ is called \emph{poset}.
+        \end{Def}
+        \begin{Def}
+            A poset $(S,\leqslant)$ in which $\forall x,y\in S$, either $x\leqslant y$ or $y\leqslant x$, we say it is \emph{totally ordering}. 
+        \end{Def}
+        A neat example is $\mathbb{Z},\mathbb{R}$ and $\mathbb{Q}$.
+        \begin{Axiom}[(Axiom of Choice)]
+            In $\mathbf{Set}$, the product of arbitrary collection of objects eixts. 
+        \end{Axiom}
+        \begin{Axiom}[(Zorn's Lemma)]
+            If \emph{every chain} in a poset has a \emph{bound}, then there exists a \emph{maximal element} in that poset.
+        \end{Axiom}
+        \begin{Note}\hfill\par
+            \emph{Chain}: A totally ordered subset of a poset.\par
+            \emph{Bound}: $y$ of a chain $C$ is a bound if $x\leqslant y$ for all $x\in C$.\par
+            \emph{Maximal Element}: $z$ is the maximal element, if $z\leqslant x\implies z=x$.
+        \end{Note}
+
+        Now we're to introduce some basic algebric concepts:
+        \begin{Def}[(Ring, Module, Field and Vector Space)]
+            \hfill\par
+            A \emph{ring} $R$ is a set with two operators $+,~\cdot~:X\times X\rightarrow X$, in which $X$ is an abelian group with $+$ and the multiplication is associative.\par
+            A \emph{module} $X$ on a ring $R$ is an abelian group (addition is also denoted as $+$) with an operator $R\times X\rightarrow X$, $(a\cdot x)\mapsto ax\in X$ s.t. for all $a,b\in R$, $x,y\in X$,
+            $$a(x+y)=ax+ay,\quad (a+b)x=ax+bx,\quad (ab)x=a(bx).$$
+            \indent A \emph{field} $\mathbb{F}$ is an abelian ring (by ``abelian'', I mean the multiplication is commutative) with a unity element of multiplication and every other element has a inverse with respect to multiplication.\par
+            A \emph{vector space} is a module on a field.
+        \end{Def}
+        \hfill\par
+        \begin{Proposition}
+            Every vector space has a basis.
+        \end{Proposition}
+        \begin{Proof}
+            First, let $S$ be the set of all linear independent subset of $V$, there is a natural partial structure $\subset$ on $S$ making it a poset, then for each chain $C$ of $S$, I claim that the union $U$ of all elements in $C$ is again linear independent. Otherwise, suppose there are $x_1\cdots x_n\in U$ such that $\displaystyle\sum_{i=1}^n \lambda^i x_i=0$, then we can always find some subsets $S_1\subset S_2\subset\cdots\subset S_n\in C$ such that $x_i\in S_i$, which contradicts to the hypothesis that $S_i$ are independent.\par
+            So every chain $C$ now has a bound $U$. By Zorn's lemma, $S$ must have a maximal element, written as $S_\infty$.\par
+            Suppose there exits $x$ that cannot be written as a linear independent combination of $S_\infty$, then $S_\infty\bigcup\{x\}$ is still linear independent, contradicting the fact that $S_\infty$ is maximal element of $S$. Hence we find out the basis $S_\infty$.
+        \end{Proof}
+        \begin{Example}
+            Some infinite-dimensional vector spaces in physics:\par
+            1). EM: $F_{\mu\nu}$, or $\bm{B},\bm{E},\bm{A},\phi$ are vectors in function space.\par
+            2). QM: Hilbert space.
+        \end{Example}
+    
+    \section{Free and Underlying Functor}
+        \begin{Example}[(Adjoint Free and Underlying Functor)]
+            Given $F:\mathbf{Set}\rightarrow\mathbf{Vec}$ and $U:\mathbf{Vec}\rightarrow\mathbf{Set}$. Given $S\in\mathbf{Set}$, then $FS$ is a vector space with map $\varepsilon:S\rightarrow UFS$ (unit one) so that $\forall V\in\mathbf{Vec}$ with $\beta:S\rightarrow UV$, there exists an unique $\alpha:FS\rightarrow V$ s.t.
+            $$U\alpha\circ\varepsilon=\beta,$$
+            or
+            $$\xymatrix{FS\ar[d]^{\alpha} & S \ar[r]^{\varepsilon_{S}} \ar[rd]_{\beta} & UFS \ar[d]^{U\alpha} \\ V & & UV}.$$
+            Given a set $S$ and a field $\mathbb{F}$, we construct $FS$ as \emph{arbitrary finite formal sum} of elements of $S$ with coefficient in $\mathbb{F}$ with the form $\alpha x+\beta y$, where $x,y\in S$ and $\alpha,\beta\in\mathbb{F}$. Equivalently, we define a map $S\rightarrow\mathbb{F}$ such that the map takes nonzero value for only a finite number of elements in $S$. This construction clearly has a vector space structure.\par
+            But we also need to show that such construction satisfies the universal property of free structure. (Proof: Given $V$ and $\beta$, let $S=\{x_i\}$. An element $y\in FS$ has the form of finite sum $\displaystyle y=\sum_i y^i x_i$ with $y^i\in\mathbb{F}$. Define $\displaystyle\alpha(y)=\sum_i y^i\beta(x_i)$, then $U\alpha\circ\varepsilon(x_i)=U\alpha(x_i)=\beta(x_i)$ for all $x_i\in S$, which gives $U\alpha\circ\varepsilon=\beta$. Let $\alpha'$ be another map from $FS\rightarrow V$ such that $U\alpha'\circ\varepsilon=\beta$ or $\alpha'(x_i)=\beta(x_i)$. Then $\displaystyle\alpha'(y)=\alpha'\left(\sum_{i} y^i x_i\right)=\sum_i y^i\beta(x_i)=\alpha(y)\implies \alpha'=\alpha$)\par
+            \hfill\par
+            Next, as is done in $\mathbf{Grp}$, we are to prove that $F$ is the left adjoint of $U$:
+                \begin{Proof}
+                    Given $\alpha\in\mathrm{Mor}(FS,V)$, define $\beta:\mathrm{Mor}(FS,V)\rightarrow\mathrm{Mor}(S,UV)$ by $\eta:\alpha\mapsto\beta=U\alpha\circ\varepsilon_{S}$. The universal property says that given $\beta:S\rightarrow UV$, there uniquely exists $\alpha:FS\rightarrow V$ such that $\beta=U\alpha\circ\varepsilon_{S}$. So we define $\lambda:\mathrm{Mor}(S,UV)\rightarrow\mathrm{Mor}(FS,V)$ by $\lambda(beta)=\alpha$ then $\forall\beta:S\rightarrow UV$, we have $\eta\circ\lambda(\beta)=U(\lambda(\beta))\circ\varepsilon_{S}=\beta\implies\eta\circ\lambda=\mathbbm{1}_{\mathrm{Mor(S,UV)}}$.\par
+                    Now let $\alpha\in\mathrm{Mor}(FS,V)$ and $\alpha'=\lambda\circ\eta(\alpha)$, we have $U\alpha'\circ\varepsilon_{S}=\eta(\alpha')=\eta\circ\lambda\circ\eta(\alpha)=\eta(\alpha)\circ\beta=U\alpha\circ\varepsilon_{S}$. So by the uniqueness (of $\alpha$ satisfying $U\alpha\circ\varepsilon_{S}=\beta$), we must have $\alpha'=\alpha$ and thus $\lambda\circ\eta=\mathbbm{1}_{\mathrm{Mor}(FS,V)}$.\par
+                    Therefore $\varepsilon$ is a natural transformation $\displaystyle\mathbbm{1}\mathop{\rightarrow}^{\varepsilon}UF$ called the unit. 
+                    $$\xymatrix{S \ar[r]^{\varepsilon_{S}} & UFS \\ S'\ar[u]^{f}\ar[r]^{\varepsilon_{S'}} & UFS'\ar[u]_{UFf}}$$
+                    (There is $\delta:FU\rightarrow\mathbbm{1}$ called the counit. For $\mathbf{Grp}$, this is the quotient $FUG\rightarrow G$).\par
+                    Let's draw the diagram here (and to prove this disgram commutes)
+                    $$\xymatrix{\mathrm{Mor}(FS,U)\ar[r]^{\eta_{S,V}}\ar[d]_{\mathrm{Mor}(Ff,g)} & \mathrm{Mor}(S,UV) \ar[d]^{\mathrm{Mor}(f,Ug)}\\ \mathrm{Mor}(FS',V')\ar[r]^{\eta_{S',V'}} & \mathrm{Mor}(S',UV')}$$
+                    For the right above semicircle,
+                    \begin{align*}
+                        \mathrm{Mor}(f,Ug)\circ\eta_{S,V}(\alpha)&=Ug\circ(\eta_{S,V}(\alpha))\circ f=US\circ U\alpha\circ\varepsilon\circ f\\
+                        &=U(g\circ\alpha)\circ\varepsilon_{S}\circ f.
+                    \end{align*}
+                    For the left below semicircle,
+                    \begin{align*}
+                        \eta_{S'V'}\circ\mathrm{Mor}(Ff,g)(\alpha)&=\eta_{S'V'}(g\circ\alpha\circ Ff)=U(g\circ\alpha\circ Ff)\circ\varepsilon_{S'}=U(g\circ\alpha)\\
+                        &=U(g\circ\alpha)\circ UFf\circ\varepsilon_{S'}.
+                    \end{align*}
+                    So by the natural transformation of $\varepsilon:\mathbbm{1}\rightarrow UF$, the right above equals to the left below and we find a natural transformation $\eta:\mathrm{Mor}(FS,V)\rightarrow\mathrm{Mor}(S,FV)$.\par
+                    As for another direction, we similarly have
+                    $$\mathrm{Mor}(f,Ug)\circ\eta_{S,V}=\eta_{S',V'}\circ\mathrm{Mor}(FS,g),$$
+                    or
+                    $$\lambda_{S',V'}\cdots\circ\lambda_{S,V}=\lambda_{S',V'}\cdots\circ\lambda_{S,V},$$
+                    implying
+                    $$\lambda_{S',V'}\circ\mathrm{Mor}(f,Ug)=\mathrm{Mor}(Ff,g)\circ\lambda_{S,V}.$$
+                    So $F$ is the left adjoint of $U$ and we prove the direction
+                    $$\xymatrix{\ar[d] & \ar[l]\ar[d]\\ & \ar[l]},$$
+                    thus $\eta$ is a natural transformation.
+                \end{Proof}
+        \end{Example}
+        Every vector space is the free vector space generated by a basis with the assumption of the axiom of choice.\par
+        If $S$ and $S'$ are isomorphic as sets, so are $FS$ and $FS'$.\par
+        But if $V\simeq V'$, what about the basis? By using the isomorphism, this is equivalent to ask if bases of a vector spaces is unique up to isomorphism.\par
+        The answer is YES if assuming the axiom of choice (But the proof is tedious and we just neglect it). Thus the only invariant (intrinsic) property of a vector space are $F$ and its \emph{dimension} (the cardirdity of its basis).
+
+    \section{Vector Subspace}
+        \begin{Def}
+            A vector subspace of the vector space $V$ is a subset which is closed in addition and multiplication in V. So it's a vector space itself.
+        \end{Def}
+        Obviously a subspace is also an abelian group, and the arbitrary intersection of subspace is still a subspace. Additionally, the subspace generated by a subset is equal to the span of the subset.\par
+        In fact, you can see that the construction below will be analogous to that in $\mathbf{Grp}$.
+        \begin{Def}
+            Let $W$ be a subspace of $V$, then for $x\in V$, the \emph{coset} is defined as $x+W=\{x+y|y\in W\}$.
+        \end{Def}
+        \begin{Proposition}
+            Each $x\in V$ belongs to one and only one coset of subspace $W$.
+        \end{Proposition}
+        \begin{Proof}
+            Similar to the case of coset in $\mathbf{Grp}$.
+        \end{Proof}
+        \begin{Def}[(Complementary Vector Space)]
+            Given $U$ and $W$ subspaces of $V$ such that $U\bigcap W=\{0\}$ and $\mathrm{span}(U,W)=V$, then we say $U$ and $W$ are complementary vector spaces.
+        \end{Def}
+        The above definition can be generalized to finite cases:
+        \begin{Proposition}
+            Given a collection of subspaces $\{W_i\}, i\in I$ satisfy: first, $W_i\bigcap\mathrm{span}(W_{j\neq i})=\{0\}$, second, $\displaystyle\mathrm{span}(\bigcup_{i\in I}W_i)=V$, then we have:\par
+            1). For any $x\in V$, there exits $y_i\in W_i$ such that $x$ can be expressed by finite sum of $y_i$, i.e., $\displaystyle x=\sum_i y_i$.\par
+            2) If the finite sum $\sum_i y_i=0$, then $y_i=0$ for any $i\in I$.
+        \end{Proposition}
+        \begin{Proof}
+            Suppose $y_1+\cdots+y_n=0$, then $y_1=-y_2-\cdots, y_i\in W_i$. But from the definition of $W_i$, we get $y_i=0$.
+        \end{Proof}
+        \begin{Note}
+            It's a spacial case when each $W_i$ is of one-dimensional.
+        \end{Note}
+        \begin{Theorem}
+            If $U$ and $W$ are complementary subspaces of $V$, then there exits an isomorphism $U\simeq V/W$.
+        \end{Theorem}
+        \begin{Proof}
+            Given $x\in U$, we define $f:U\rightarrow V/W$ by $x\mapsto x+w$. Clearly this is a linear map. Let $y\in V$, since $U$ and $W$ are complementary, there exists a unique $x\in U$ such that $y-x\in W$. Define $\tilde{g}:V\rightarrow U$ by $y\mapsto x$, then apparently $\tilde{g}$ is linear and $\tilde{g}(W)=\{0\}$. Thus $\tilde{g}$ induce a map $g:V/W\rightarrow U$ because if $x_1-x_2\in W$, we have $\tilde{g}(x_1)=\tilde{g}(x_2)$. Through defining $g(x_1+w)=\tilde{g}(x_1)$, $g$ is also linear.\par
+            Let $x\in U$, then $g\circ f(x)=g(x+w)=x\implies g\circ f=\mathbbm{1}_U$. Now consider $y+w\in V/W$ and $y=x+z$, $x\in U, z\in W$, then $g(y+w)=\title{g}(y)=x$, $f(x)=x+w=y+w$, giving $f\circ g(y+w)=y+w$. So $f\circ g=\mathbbm{1}_{V/W}$ and $U\simeq V/W$.
+        \end{Proof}
+        \begin{Theorem}
+            For any subspace $W$ of $V$, there always exists its complementary $U$.
+        \end{Theorem}
+        \begin{Proof}
+            Consider the \emph{poset} $\{S;\subset\}$, where $S=\bigg\{$ all subspace whose intersection with $W$ is $\{0\}$ $\bigg\}$, and any chain in it. Take the union of all element in it, then this is again a subspace whose intersection with $W$ is $\{0\}$. Thus this is a bound of the chain.\par
+            By Zorn's lemma, there eixsts a maximal element $U$ in $S$. Suppose there exists one $x\in U$ that cannot be written as the sum of $y\in U$ and $z\in V$, then $U\subset\mathrm{span}(U,\{x\})\in S$, contradicting to the maximality of $U$. Thus $\mathrm{span}(U,W)=U$, implying that $U$ and $W$ are complementary subspaces.
+        \end{Proof}
+        \hfill\par
+        The zero object of $\mathbf{Vec}$ is the trivial vector space 
+        $$\xymatrix{\{0\}\ar[r] &V\ar[r]&\{0\}}.$$
+        Given $f:V\rightarrow W$, we now have
+        $$\xymatrix{\mathrm{ker}(f)~~\ar@{>->}[r]&V\ar[r]^{f}&W& \\ \mathrm{Im}(f)~~\ar@{>->}[r]&W\ar@{->>}[r]& W/\mathrm{Im}(f)\ar[r]&\mathrm{coker}(f)}$$
+
+    \section{Direct Sum of Vector Spaces}
+        \begin{Def}[(Direct Sum)]
+            Given two vector spaces $V_1, V_2$ (both real or complex), we denote the \emph{direct sum} $V_1\oplus V_2=\{(x_1,x_2)|x_1\in V_1, x_2\in V_2\}$. For any $\alpha\in\mathbb{F}$, we define the multiplication $\alpha(x_1,x_2)=(\alpha x_1,\alpha x_2)$ and summation $(x_1,x_2)+(y_1,y_2)=(x_1+y_1,x_2+y_2)$, then we make $V_1\oplus V_2$ also a linear space. 
+        \end{Def}
+        Define the canonical projection $\pi_i:V_1\oplus V_2\rightarrow V_i$ by $\pi_i(x_1,x_2)=x_i$ as usual and $\alpha_i:V_i\rightarrow V_1\oplus V_2$ by $\alpha_1(x_1)=(x_1,0)$ and $\alpha_2(x_2)=(0,x_2)$, then it's easy to find that $(V_1\oplus V_2,\pi_1,\pi_2)$ is the product (in the sense of category) between $V_1$ and $V_2$ while $(V_1\oplus V_2,\alpha_1,\alpha_2)$ is the coproduct. Thus we have
+        \begin{Proposition}
+            Both the products and coproducts of linear spcaces are the direct sum of them.
+        \end{Proposition}
+        But the finiteness makes differences here:
+        \begin{Note}
+            \begin{itemize}
+                \item Finite product and coproducts of vector spaces are the same in $\mathbf{Vec}$. Thay are all the finite direct sum.
+                \item However, in the infinite case $V_1\oplus V_2\oplus\cdots\oplus\cdots$, it is the coproduct of them only if there is \emph{finite} number of $x_i\in V_i\neq0$, while there is no confinement on the products.
+            \end{itemize}
+        \end{Note}
+        \begin{Proposition}
+            Let $W_1,W_2$ be subspaces of $V$, then $W_1$ and $W_2$ are complementary if and only if $V\simeq W_1\oplus W_2$.
+        \end{Proposition}
+        \begin{Proof}
+            cf. textbook.
+        \end{Proof}
+
+    \section{Complex and Real Linear Space}
+        As for this section, I recommand to refer to the textbook.\par
+        We sometimes want to go from $\mathbb{R}$ and $\mathbb{C}$ to each other. Here are some methods:\par
+        \begin{itemize}
+            \item Pretend a $N$-dimensional vector space over $\mathbb{C}$ is a real vector space of $2N$-dimensional. Treat the complex sum $a+ib$ as the sum of $a\mathbbm{1}+bJ$, where $J$ is a linear transformation such that $J^2=-\mathbbm{1}$. This is a funtor from $\mathbf{Vec}_{\mathbb{C}}$ to $\mathbf{Vec}_{\mathbb{R}}$. For example, $\mathbb{C}^1\simeq\mathbb{R}^2$, $i(x+iy)=-y+ix$, $\displaystyle J\left(\begin{array}{c}x\\y\end{array}\right)=\left(\begin{array}{c}-y\\x\end{array}\right)$.
+            \item Let $J$ be a real matrix s.t. $J^2=-\mathbbm{1}$ known as a \emph{complex structure}. Then we can define $\mathbb{C}^n\simeq\mathbb{R}^{2n}$ with $i\longleftrightarrow J$. Define $P_{\pm}:=(i\pm J)/2i$, one can see that $P_{\pm}^2=\dfrac{-2\pm 2iJ}{-4i}=P_{\pm}$. And $P_{+}+P_{-}=\mathbbm{1}, P_{+}-P_{-}=J/i$. For any $2n\times 2n$ matrix $L$ acting on $\mathbb{R}^n$, we can decompose $L$ into (anti-)holomorphic components with $P_{\pm}$.
+            \item Given any $\mathbb{R}^n\simeq V$, define $W=V\oplus V$. Define $J$ on $W$ as $\displaystyle J=\left(\begin{array}{cc}0&\mathbbm{1}\\ \mathbbm{1}&0\end{array}\right)$.
+        \end{itemize}
+
+    \section{Tensor Product}
+        \begin{Def}
+            Consider a category $\mathcal{C}$ in which the homomorphisms themselves are objects in $\mathcal{C}$. For example, $\mathrm{Hom}(X,Y):\mathcal{C}^*\times\mathcal{C}\rightarrow\mathcal{C}$ in $\mathbf{Vec},\mathbf{AbG}$ and\footnote{Note that $\mathrm{Mor}$ is the image of underlying functor on $\mathrm{Hom}$.} $\mathrm{Mor}(X,Y):\mathcal{C}^*\times\mathcal{C}\rightarrow\mathbf{Set}$ in $\mathbf{Set}$. Then we define the tensor functor $\otimes$ by requiring 
+            $$\mathrm{Hom}(X\otimes Y,Z)\simeq\mathrm{Hom}(X,\mathrm{Hom}(Y,Z)).$$
+        \end{Def}
+        Here is the construction\footnote{Note the logic here, it is because we want to construct the algebra satisfying the universal property as follows that  we construct a free vector space quotient by the equivalence relation.}:\par
+        
+        Suppose $F\dashv U$, and let $T_0=FU(X\oplus Y)$, where $X,Y$ are both vector spaces. Let $K$ be the subspace of $T_0$ generated by $(x+y,z)-(x,z)-(y,z)$, $(x,w+z)-(x,w)-(x,z)$, $(ax,y)-a(x,y)$ and $(x,ay)-a(x,y)$, then
+        $$X\oplus Y\simeq T_0/K.$$
+        So $\oplus$ is a univeral object for bilinear maps, by which we means
+        \begin{align*}
+            [(x,y)]&=(x,y)+k=x\oplus y,\\
+            (x+y)\otimes z&=x\otimes z + y\otimes z,\\
+            \alpha(x\otimes z)&=\alpha x\otimes z= x\otimes\alpha z.
+        \end{align*}
+        \begin{Proposition}[(univeral property of tensor product)]
+            To any bilinear map $\tilde{f}:X\times Y\rightarrow Z$, there exists a unique $f:X\otimes Y\rightarrow Z$ such that the diagram commutes.
+        \end{Proposition}
+        \begin{Proof}
+            Let $\{a_i\}$ be a basis for $X$, $\{b_i\}$ for $Y$. Then $\{a_i\otimes b_j\}$ is a basis for $X\otimes Y$. For any $z\in X\otimes Y$, there exists $z_0\in T_0$ s.t. $[z_0]=z$. But $z_0=(x_1,y_1)+(x_2,y_2)+\cdots+(x_n,y_n)$. Suppose $\displaystyle x_k=\sum_i \alpha_k^i a_i$ and $\displaystyle y_k\sum_i \beta_k^i b_i$, then by the construction of $X\otimes Y$, we have a finite sum
+            $$z=\sum_{k=1}^{n}\sum_{i,j}\alpha_k^i \beta_k^j a_i\otimes b_i.$$
+            Next, suppose the finite sum $\displaystyle\sum_{i,j}\alpha^{i,j}a_i\otimes b_i=0$, or $\displaystyle\sum_{i,j}\alpha^{i,j}(a_i,b_j)\in K$, then from $K$'s definition $\alpha^{i,j}=0$.\par
+            In all, we prove that $\{a_i\otimes b_j\}$ is a basis for $X\otimes Y$ and $f$ with $f(a_i\otimes b_j)=f(a_i,b_j)$ satisfies $f(x\otimes y)=\tilde{f}(x,y)$ (write $x,y$ in terms of $a_i$ and $b_j$).
+        \end{Proof}
+        \begin{Proposition}
+            There is one natural equivalence:
+            $$(X\otimes Y\rightarrow)\longleftrightarrow\mathrm{Hom}(X,\mathrm{Hom}(Y,Z)).$$
+        \end{Proposition}
+        \begin{Proof}
+            Given bilinear $f:X\otimes Y\rightarrow Z$, we define $\widehat{f}:X\rightarrow\mathrm{Hom}(Y,Z)$ by 
+            $$(\widehat{f}(x))(y):=f(x,y).$$
+            Conversely, given $\widehat{f}:X\rightarrow\mathrm{Hom}(Y,Z)$, we can define the bilinear map conversely.\par
+            Thus the above two mapping are bijection.
+        \end{Proof}
+        \begin{Corollary}
+            For finite dimensional space\footnote{This is not true for infinite dimensional ones.}, we have $\mathrm{Hom}(X,Y)\simeq X\otimes Y$. Particularly, we have $X^*\simeq\mathrm{Hom}(X,Y)\simeq X^*\otimes Y$.
+        \end{Corollary}
+        \begin{Example}
+            $m\times n$ matrix is the tensor product of $\mathbb{F}\otimes_{\mathbb{F}}\mathbb{F}$.\par
+            Tensor product of left module and right module on ring $\mathcal{R}$, $M\otimes_{\mathcal{R}} N$.\par
+            Space of function of $(x,y)$ $\simeq$ Space of function of $x$ and space of function of $y$:
+            $$f(x,y)=f(0,0)+xf_x(0,0)+yf_y(0,0)+x^2\cdots.$$
+            QM system consist of two independent Hilbert space $\mathbf{H}=\mathbf{H}_1\otimes\mathbf{H}_2$.
+        \end{Example}
+        \begin{Proposition}
+            $$\mathrm{Hom}(X,W)\simeq V^*\otimes W.$$
+            If $W$ is \emph{finite} dimensional, $V^*\simeq\mathrm{Hom}(V,\mathbb{F})$.
+        \end{Proposition}
+        \begin{Proof}
+            Let $f\in\mathrm{V,W}$ and $\{e_i\}$ be basis for $W$ (we temporarily do not confine that $W$ to be finite dimensional), define  $f_i:V\mathbb{F}$ by\footnote{Note that this expression can only be a finite sum even if $W$ is inifnite dimensional.} $\displaystyle f(x)=\sum_{i\in I}f_i(x)e_i$ for $x\in V$. But this dose not mean that the exression $\displaystyle\sum_{i\in I}f_i\otimes e_i$ make sense because even if $f_i(x)\neq0$ for finite number of $i$ and all $x$, $f_i$ ,maybe nonzero for \emph{infinite} number of $i$.\par
+            Consider $a\in V^*\otimes W$, we can write a finite sum $\displaystyle a=\sum_{i}f_i\otimes e_i$ for $f_i\in V^*$. Then we can define $\displaystyle f(x):=\sum_i f_i \otimes e_i$ for all $x\in V$ (note that this procedure cannot be reversed). Then $f\in\mathrm{Hom}(V,W),\implies V^*\otimes\rightarrow\mathrm{Hom}(V,W)$.
+        \end{Proof}
+
+\chapter{Associated Algebra Category and Lie Algebra Category}
+
+    \section{Associated Algebra}
+        \begin{Def}
+            A algrbra $A$ is a vector space with a multiplication $*:V\times V\rightarrow V$ satisfying
+            \begin{align*}
+                (\alpha x+y)*z&=\alpha x*z+y*z,\\
+                x*(\alpha y+z)&=\alpha x*y+x*z,\\
+                (x*y)*z&=x*(y*z).
+            \end{align*}
+            \begin{Example}
+                Algegra of $\mathbb{F}$-value function on a set. It is commutative. And it's a contravariant functor from $\mathbf{Set}$ to $\mathbf{ComALG}$ (commutative algebra category).\par
+                Algebra of $A$-valued (associative algebra) function on set $S$. Again this is a functor.\par
+                For a grouup $G$, consider $\displaystyle\mathbf{Grp}\mathop{\rightarrow}^{U}\mathbf{Set}\mathop{\rightarrow}^{F}\mathbf{Vec}$, we have the multiplication of algebra inherited form group multiplication $*:FU(G)\otimes FU(G)\rightarrow FU(G)$. We call this \emph{group algebra}.\par
+            \end{Example}
+            By giving the homomorphism of associated algebra, that is, $f\in\mathrm{Hom}(A,A'), f(a*b)\mapsto f(a)*f(b)$, we get the $\mathbf{ALG}$.\par
+
+            Now we put the $\mathbf{ComAlG}$ precisely. Let $f:S'\rightarrow f$ and define $\tilde{f}:\mathrm{Mor}(S,A)\rightarrow\mathrm{Mor}(s',a')$ by $\tilde{f}:g\rightarrow g\circ f$, where $g$ is mapping from $S$ to $A$. We need to show that such $\tilde{f}$ is homomorphism:
+            \begin{align*}
+                \left(\tilde{f}(\alpha g_1+g_2)\right)(x)&=(\alpha g_1+g_2)(f(x))=\alpha g_1(f(x))+g_2(f(x))=(\alpha\tilde{f}(g_1)+\tilde{f}(g_2))(x)\\
+                \left(\tilde{f}(g_1*g_2)\right)(x)&=(g_1*g_2)(f(x))=g_1(f(x))*g_2(f(x))=(\tilde{f}(g_1)*\tilde{f}(g_2))(x).
+            \end{align*}
+            Thus we get the category $\mathbf{ALG}$.
+        \end{Def}
+        Up to now we add many structures to sets, in the aspect of comlpexiity of structures we have a sequence:
+        \begin{align*}
+        \mathbf{Set}\supset\mathbf{Grp}\supset\mathbf{AbG}\supset&\mathbf{Vec}\supset\mathbf{ALG}\supset\mathbf{ComALG}\\
+        &\mathbf{MOD}\footnote{Category of module.}
+        \end{align*}
+        \hfill\par
+        Underlying functor $U:\mathbf{ALG}\rightarrow\mathbf{Vec}$, and functor $F:$
+        \begin{Def}
+            A unital algebra is an algebra witha  unit elemnent $\mathbbm{1}$ with respect to a $\mathbbm{1}*x=x*\mathbbm{1}=x$ for any $x\in A$.
+        \end{Def}
+        \hfill\par
+        Note the distinction of $U\phi$ that it is not necessary to be unique.
+        $$\xymatrix{V \ar[r]^{\alpha} \ar[dr]_{\beta} & UFV \ar[d]^{U\phi} & FV \ar[d]^{\phi}\\ & UA & A}$$
+        Motivation: Given an algebra $\tilde{V}$, $V\simeq UV$ implies a unique $\phi:FV\rightarrow\tilde{V}$
+
+        \begin{Proposition}
+            $$V\oplus V\otimes V\oplus\cdots\simeq\oplus_{n=1}^{\infty} V^{\otimes n}.$$
+        \end{Proposition}
+        \begin{Proof}
+            Given $\beta:V\rightarrow A$, we define the algebra homomorphism $\phi:FV\rightarrow A$ by $\phi(x_1\otimes x_2\otimes\cdots)=\beta(x_1)\beta(x_2)\cdots$. Similar to the case in vector spaces that if we determine the homomorphism of basis, we then determine the homomorphism of vecotr spaces. So
+            $$\phi'(x)=\phi(x)\implies \phi'(y)=\phi(y),\forall y\in FV.$$
+        \end{Proof}
+        \begin{Example}
+            Trivial one: $V=\mathbb{F}^0\sim\{0\}$, then $F(\mathbb{F}^0)=\{0\}$.\par
+            $V=\mathbb{F}^1$. Define $\alpha(1)=x$, then $F(\mathbb{F}^1)\sim$algebra of polynomials with $\sigma$ at origin $x^n\sim x^{\otimes n}$. And $F(\mathbb{F}^1)\sim$algebra of polynomials.\par
+            For arbitrary vector space $V$, we chooce a baisis $\{e_i\}$ for an index set $i\in I$. Then the baisis of $F(V)$ are arbitrary words.
+        \end{Example}
+        \begin{Def}[(Two-side Ideal)]
+            Given a ring $(R,+,*)$. A subset $\displaystyle I$ is called a \emph{two-sided ideal} (or simply an ideal) of ${\displaystyle R}$ if it is an additive subgroup of R that ``absorbs multiplication by elements of R'', i.e.,\par
+            1) $(I,+)$ is the subgroup of $(R,+)$;\par
+            2) $\forall x\in I, r\in R$, both $x*r$ and $r*x$ are elements of $I$. 
+        \end{Def}
+        Given algebra $A$ and ideal $W$, we have
+        $$(x_1+W)(x_2+W)=x_1x_2+W.$$
+        So
+        $$\xymatrix{W~~\ar@{>->}[r] & A \ar[r] & A/W}$$
+        and $\mathrm{ker}f$ is always an ideal.\par
+        Given an algebra homomorphism $f:A\rightarrow B$, we have
+        $$\xymatrix{\mathrm{ker}f~~\ar@{>->}[r] & A \ar@{->>}[r] & A/\mathrm{ker}f\sim\mathrm{Im}f}.$$
+        Hence subalgebra/ideals is generated by a subset.
+        \begin{Example}
+            Firstly, Category of commutative algebra.\par
+            Function on set $S$ and ideal the set of functions vanishing on $S_0\subset S$.
+            $$\xymatrix{I_{S_0\subset S}\ar[r] & A_S\ar[r] & A_S/I_{S_0\subset S}\sim A_{S_0}}.$$
+            $I_1\subset I_2$. We call $I$ the maximum ideal if the only ideal properly containing $I$ is $A$ itself. In this case the set of maximal ideals of $A_S\sim S$.
+        \end{Example}
+
+    \section{Lie Algebra}
+        Lie algebra is abtracted form the commutator. 
+        \begin{Def}[(Lie Algebra)]
+            We say algebra $A$ is Lie algebra, if the product of $A$ is anti-commutative\footnote{By which we mean that $[x,x]\equiv0$ for any $x\in A$.} and bilinear, denoted as $[\cdot,\cdot]:A\times A\rightarrow A$, with the \emph{Jaccobi identity}:
+            $$[[A,B],C]+[[B,C],A]+[[C,A],B]=0.$$
+        \end{Def}
+        If the algebra $A$ is associated, then we can define $[a,b]:=ab-ba$ (check!).\par
+        In fact, we define a underlying functor $U:\mathbf{ALG}\rightarrow \mathbf{LAlg}$ (certainly we have to define the Lie algebra homomorphism before: for $\phi:V_1\rightarrow V_2$, we assign $\phi([x,y])=[\phi(x),\phi(y)]$):
+        $$\xymatrix{\mathbf{ALG} \ar[rd] & & \mathbf{LAlg} \ar[ld] \\ & \mathbf{Vec} & }.$$
+        Generally, we can alway decompose $ab$ as two parts: anti-commutative product (by commutator) and commutative product (by anti-commutator), $ab\equiv\dfrac{1}{2}([a,b]+\{a,b\})$.
+    \section{Universal Enveloping Algebra}
+        We already have
+        $$\xymatrix@C=0.8in{\mathbf{LiAlg}\ar@{<=>}[r]^{F_L}_{U} & \mathbf{Alg}}$$
+        and $F\vdash U$.\par
+        \begin{Def}
+            The free associative algebra for a Lie algrbra \emph{Universal enveloping algebra}, short for $\mathrm{UEA}$.
+        \end{Def}
+        Here is the construction: \par
+        Let's start with Lie algrabra $V$. Use the $F_V:\mathbf{Vec}\rightarrow\mathbf{Alg}$ that $F_V V=V\oplus V\otimes\cdots$. Now we try to use $[\cdot,\cdot]$ on $V$. Consider the ideal $I$ generated by $x\otimes y-y\otimes x-[x,y]$, then $F_V V/I\sim F-L V$ satisfying the universal property that
+        $$\xymatrix{V\ar[r]& UF_L V\ar[d] & F_L V\ar[r] & A \\ & I & & }$$
+
+        \begin{Def}[(Casmir Subalgebra)]
+            Given a associateive algebra $A$, elements $x$ which commute with all $A$ is called the \emph{center} of $A$. The center of $F_L V$ is caled the \emph{Casmir Subalgebra}.
+        \end{Def}
+        \begin{Example}\hfill\par
+            1) $[L_i,L_j]=i\varepsilon_{ijk} L_k$. Then $L^2\equiv\displaystyle\sum_{i}L_i L_i$ is the Casmir subalgebra.\par
+            2) Cross pruducts. One can see that this is isomorphic to that in 1).\par
+            3) Poincare Group. In Mincowski space, translation $P^\mu$, spacetime variation $\Lambda_{\mu\nu}$ (called the Lorentz transformation) forms the Lie algebra and the Casmir subalgebra is exactly the \emph{mass shell}
+            $$p^\mu p_\mu=m^2.$$
+            In fact, in mathematics, we define particles to the irreducible representation of Lie algrbra of Poincare group.
+        \end{Example}
+        Here is one intuitive understanding of $F_L$ (UEA).. Given $x,y\in V$, we have $xy-yx=z$ if $z=[x,y]$. Forms the  basis of $V$, $\{e_i\}$. We As a vector space, so the UEA has basis 
+        $$e_i;e_{i1},e_{i2};e_{i1},e_{i2},e_{i3};\cdots$$
+        \begin{Example}[(Classical Mechanics VS Quantum Mechanics)]
+            In classcal mechanics,we have a \emph{phase space} $M$, for example, $\mathbb{R}^2$ and a function on $M$ of variables $p$ and $q$ subject to the relation $\{q,p\}=1$. In contrast, in qunatum mechanics, we have a Hilbert space $\mathbf{H}$ and two abstract object as operation on $\mathbf{H}$, namely $P$ and $Q$, with the relation $[Q,P]=i\hbar$.\par
+            Functions on $M$ form a vector space $V$ (think of polynomials). Now consider the free associative free associative algebra $FV$,  where $V=\mathbb{R}^2$ spanned by $p,q$. Then
+            \begin{align*}
+                I_0&=\text{ ideal generated by }pq-qp,\\
+                I_\hbar&=\text{ ideal generated by }pq-qp-i\hbar
+            \end{align*}
+            then 
+            \begin{align*}
+                F_{\mathbbm{1}}V/I_0&\sim\text{ classical polynomial in }(p,q),\\
+                F_{\mathbbm{1}}V/I_\hbar&\sim\text{ quantum polynomial in }(p,q),\\
+            \end{align*}
+            or 
+            $$\xymatrix{ & & FV/I_{0} & CM\\V=\mathbb{R}^2\ar[r] & FV \ar[ur]\ar[dr] & & \\ & & FV/I_{\hbar} & QM}.$$
+            Thus there is not a natural way to quantize a classical algebra to quantum one, i.e., no one to one correspondence.
+        \end{Example}
+
+    \section{Physcal Application}
+
+        \subsection{Multi-particle State}
+            Denote the quantum state space of one particle as linear space $V$, and $W$ then the combined state of them are natural to be $V\otimes W$. This can be generalized to $N$ particle case in which $N$-particle state is 
+            $$V\otimes \cdots\otimes V\equiv V^{\otimes N}.$$
+            However, in physics, it'a crucial perspective to consider the exchange of paritcles, and experimentally there does exist a somehow strange result called ``indistinguishality in principle''. So physically the $N-$particle state must be the quotient space under the quotient of equivalent relations. For example, for two particle case, the state space should be $V\otimes V/\mathbb{Z}_2$.\par
+            In the representation theory of \emph{four} dimensional Poincare group, we can prove that\footnote{cf. My notes of Quantum Field Theory, chapter four.} there is only two possibilities to act on the tensor product state:
+            \begin{align*}
+                x_1\otimes x_2&\mapsto x_2\otimes x_1,\\
+                x_1\otimes x_2&\mapsto -x_1\otimes x_2.
+            \end{align*}
+            \begin{Note}
+                In my proof, note that we use the fact that \textbf{there exits no nontrivially one dimensional representaion of rotational group} to exclue the parameter in the exchanging factor $\alpha(p_1,p_2;\sigma_1,\sigma_2;n)$ of multical-particle state.
+            \end{Note}
+            For $N$-particle state, we should have $V^{\otimes}N/P_N$, where $P_N$ is the permutation group. Also, under such representaion, we  have
+            \begin{align*}
+                x_1\otimes\cdots\otimes x_N&\mapsto x_{k_1}\otimes\cdots\otimes x_{k_N},\\
+                x_1\otimes\cdots\otimes x_N&\mapsto (-1)^{|P_N|}x_{k_1}\otimes\cdots\otimes x_{k_N},
+            \end{align*} 
+            where $|P_N|$ is the number of transposition.
+
+        \subsection{Fock Space}
+            \begin{Def}[(Fock Space)]
+                $$\mathbb{F} \oplus V^{\otimes 2}/P_2\oplus\cdots\oplus V^{\otimes N}\oplus\cdots.$$
+            \end{Def}
+            This space has interpretations as following:\par
+            1) Physically, this is the correct state space for any number of partcles.\par
+            2) Mathematically, this is the free associative (anti-)commutative algebra generated form $V$.\par
+            Let's consider the case of bosons in which $V=\mathbb{F}$, then Fock space is isomorphic to the polynomial. Under the multiplication of $x$,  we have the new polynomial 
+            $$x(a_0+a_1 x+\cdots+a_n x^n)$$
+            interpreted as adding one new particle in our system. And that's exactly the creation operator in physics. Similarly, with the Heisenberg algebra that $[\partial_x,x]=1$, we have the creationa and annihilation operator
+            $$[a_-,a_+]=1.$$
+            Let's given a more mathematical introduction of these two operators:
+            \begin{Def}[(Symmetrizer and Antisymmetrizer)]
+                The \emph{symmetrizer} and \emph{antisymmetrizer}, both mapping from $V^{\otimes N}$ to $V^{\otimes N}$, is defined as
+                \begin{align*}
+                    \mathrm{Sym}(x_1\otimes\cdots\otimes x_m)&=\dfrac{1}{n!}\sum_{k\in P_N} x_{k_1}\otimes\cdots\otimes x_{k_N}\\
+                    \mathrm{ASym}(x_1\otimes\cdots\otimes x_m)&=\dfrac{1}{n!}\sum_{k\in P_N}(-1)^{|P|} x_{k_1}\otimes\cdots\otimes x_{k_N}
+                \end{align*}
+            \end{Def}
+            \begin{Def}[(Creation Operator)]
+                For an arbitrary $x\in V$, we define the creation operator $C_x$ acting on bosonic space $F_B$ such that $y\mapsto\mathrm{Sym(x
+                \otimes y)}$ for $y\in F_B$.
+            \end{Def}
+            \begin{Def}[(Annihilation Operator)]
+                Given $f\in V^*$ such that $f(x_1\otimes x_2\cdots x_n)=f(x_1)x_2\otimes\cdots\otimes x_n$, we define the annihilation operator $D_f$ such that for all $y\in F_B$, $D_f:y\mapsto f(y)$.
+            \end{Def}
+            \begin{Property}
+                $$[D_f,D_y]=0,\quad[D_f,C_x]=f(x),\quad[C_x,C_y]=0.$$
+            \end{Property}
+            
+            Now that we have $i_A:A\rightarrow T$, we choose a basiss as in $2^{\circ}$. Again we define $i_S(e_{k_1},\cdots,e_{k_n})=e_{k_1}\otimes e_{k_n}$. If $k_1<k_2<\cdots<k_n$, this again defines a linear map $A\rightarrow T$ uniquely s.t. $\pi_S\circ i_S=\mathbbm{1}$. Again basis and ordering are dependent.\par
+            Or define 
+            $$i_S=\dfrac{1}{n!}\sum_{k\in\mathrm{Perm}(n)}(-1)^{|k|}x_{k_1}\otimes\cdots\otimes x_{k+1}.$$
+            $$\xymatrix{T\ar@{->>}[r] &A~~ \ar@{>->}[r] & C},$$
+            $A$ acts on $A$ by left product $x_1\wedge x_2$. A $S$ acts on $S$, $x_1 x_2$, generated by $xy=\prod(x\otimes i_S(y))$ for all $x\in V$, $f\in V^*$ and $y\in S$. To get $H$, use $fy=\prod_S\circ f\circ i_S(y)$.\par
+
+            For $A$, everything is analogous, called \emph{Grassman Algebra}. For $x\in V$, $f\in V^*$, when acting on $A$, we have
+            $$\{x_1,x_2\}=-,\quad\{f_1,f_2\}=0,\quad\{x,f\}=0.$$
+            This is called the \emph{Clifford algebra}.\par
+            $$\xymatrix{V\ar[r]&T\ar[r] & T/x^2=0\ar[r] & \sim A}.$$
+            A \emph{graded commutative algebra} $A=A_{\mathrm{odd}}\oplus A_{\mathrm{even}}$ such that
+            \begin{tabular}{c|cc}
+                & odd & even \\
+                \hline
+                odd & anti- & comm \\
+                even & comm & comm 
+        \end{tabular}
+
+\chapter{Representation Category}
+
+    \section{Group Representation}
+        \begin{Def}[Representation]
+            We say object $A$ represents the object $P$, if we assign $A$ with an \emph{Endormorphism} on $P$, by which we mean $\mathrm{End}(P)=\mathrm{Hom}(P,P)$.
+        \end{Def}
+        \begin{Example}\hfill\par
+            1) Representation of $\mathbf{ALG}$ and $\mathbf{LIE}$ is a mapping from object in these category to $\mathbf{Vec}$, or precisely $A\rightarrow GL(V)$.\par
+            2) $\mathbf{AbGRP}$ represents $\mathbf{RING}$: $R\rightarrow \mathrm{Hom}(A)$.
+        \end{Example}
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Given $r_i:A\rightarrow\mathrm{End}(V_i)$, we already define $r:A\rightarrow\mathrm{End}(V_1\otimes V_2)$, let's try
+        $$r(a)(x_1\otimes x_2)=(r_1(a)x_1)\otimes(r_2(a)x_2),$$
+        then 
+        $$r(ab)(x_1\otimes x_2)=r_1(a)r_1(b)(x_1)\otimes r_2(a)r_2(b)(x_2)$$
+        while
+        $$r(a)r(b)(x_1\otimes x_2)=r(a)\bigg(r_1(b)x_1\otimes r_2(b)(x_2)\bigg).$$
+        But by composition of homomorphisms, we know the above two equtions are equal to each other. It's also easy to check that the attempt above violate $r(a+b)=r(a)+r(b)$ and $r(\alpha a)=\alpha r(a)$, which we want both them to be true. \par
+        Let's consider another \emph{natural}\footnote{By natural we mean that we can only use the given conditions in addition to the unital mapping and zero mapping.} attempt. Define
+        $$r(a)(\alpha x_1\otimes x_2):=\alpha_1 r(a)(x_1)\otimes x_2+\alpha_2 x_1\otimes r(a)(x_2),$$
+        with constants $\alpha_i$ waiting to be determined. This time, we have
+        $$r(ab)(x_1\otimes x_2)=\alpha_1(r_1(a)r_1(b)x_1)\otimes x_2+\alpha_2 x_1\otimes(r_2(a)r_2(b)x_2),$$
+        while
+        \begin{align*}
+            r(a)r(b)(x_1\otimes x_2)&=r(a)(\alpha_1 r(b)(x_1)\otimes x_2+\alpha_2 x_1\otimes r(b)(x_2))\\
+            &=\alpha_1\bigg(\alpha_1 r_1(a)r_1(b)x_1\otimes x_2+\alpha_2 r_1(b)x_1\otimes r_2(a)x_2\bigg)+\\
+            &\quad+\alpha_2\bigg(\alpha_1 r_1(a)x_1\otimes r_2(b)x_2+\alpha_2 x_1\otimes r_2(a)r_2(b)x_2\bigg).
+        \end{align*}
+        These two are equal to each other only if $\alpha_1 \alpha_2=0$. WLOG taking $\alpha_2'=0$, $\alpha_1^2=\alpha_1\implies\alpha=1\text{ or }0$. However, this result is not well as we expected before, it is just replication of the discrete representation before, and all these bad consequences result from the offending term $\alpha_1\alpha_2\bigg(r_1(b)x_1\otimes r_2(a)x_2+r_1(a)x_1\otimes r_2(b)x_2\bigg)$. That's why we introduce the representation of Lie algebra below.
+
+    \section{Representation of Lie Algebra}
+        Given two representations $r_i:L\rightarrow \mathrm{End}(V_i)$, then we are to consider $r:L\rightarrow\mathrm{End}(V_1\otimes V_2)$. We want 
+        $$r([a,b])=(r(a)r(b)-r(b)r(a))$$. On the one hand,
+        $$(r(a)r(b)-r(b)r(a))(x_1\otimes x_2)=\alpha_1^2 r_1([a,b])x_1\otimes x_2+\alpha_2^2 x_1\otimes r_2([a,b])x_2,$$
+        since we want it equals to $r([a,b])(x_1\otimes x_2)$, we need $\alpha_1^2=\alpha_1$ and $\alpha_2=\alpha_2$, which has one nontrivial solution $\alpha_1=\alpha_2=1$. So we are done.
+        
+        \begin{Example}
+            Consider the angular momentum in QM in three-dimnesional space $[j_1,j_j]=\varepsilon_{ijk}J_k$, which is exactly the Lie algebra of $\mathsf{sl}(2)$. From the aspect of physics, the total momentum is $\bm{J}=\displaystyle\sum_\alpha J_\alpha$, but from representation theory, each individual part corresponds to a representation, i.e.,
+            $$r(a)(x_1\otimes\cdots)=r_1(a)x_1\otimes x_2\otimes \cdots+x_1\otimes \cdots\otimes r_k(a)x_k\otimes\cdots+\cdots.$$
+        \end{Example}
+        \begin{Def}[(Dual Representation)]
+            Given $r:G\rightarrow\mathrm{End}(V)$, we define $r*:G\rightarrow\mathrm{End}(V^*)$ such that
+
+        \end{Def}
+        \begin{Note}
+            Note that this does not work for $\mathbf{Alg}$.
+        \end{Note}
+        \begin{Note}
+            Whenever where is a vector space representation of a Lie algrbra, there is a corresponding representation for its universal envoloping algebra.
+        \end{Note}
+        \begin{Def}[(Irreducible Representation)]
+            A representation is said to be \emph{irreducible} if it has no nontrivial proper\footnote{By proper we mean the subrepresentation is properly smaller than the representation itself.} subspaces.
+        \end{Def}
+        \begin{Theorem}[(Schur's Lemma)]
+            Given an irreducible representation $r$ over complex vector space $V$ and $f\in\mathrm{End}(V)$ such that $fr(a)=r(a)f$ for any $a\in G$, then we must have $f$ a multiple of identity, i.e., 
+            $$f=\alpha\mathbbm{1}.$$
+        \end{Theorem}
+        \begin{Proof}
+
+        \end{Proof}
+        \begin{Assign}
+            p130: 144, 147.
+        \end{Assign}
+
+\chapter{Category of Topology}
+
+    \section{topological Space}
+        \begin{Def}[(topological Space)]
+            Given a set $S$ and $T$ the collection of all subset of $S$, then we say $S$ is a \emph{topological space} iff\par
+            1) $S\in T, \varnothing\in T$,\par
+            2) Arbitrary union of elements in $T$ belongs to $T$,\par
+            3) \emph{Finite} intersection of elements in $T$ belongs to $T$. and
+        \end{Def}
+        \begin{Example}
+            $\mathbb{R}$: open set is just the open interval.\par
+        \end{Example}
+        \begin{Def}
+            Given a set $S$, if $T$ is the set of all subsect of $S$, then we call $S$ the space with \emph{discrete topology}, while if $T={\varnothing,S}$, we call $S$ the space with \emph{trivial topology}. 
+        \end{Def}
+        \begin{Def}
+            \emph{Close set} is just the complement of some open set.
+        \end{Def}
+        There is a natural \emph{partial ordering}\footnote{Not have to be complete ordering because any arbitrary subset may not be inclusion of another one.} on the collection of subset of $S$. So there is always a partial ordering on topology. Now given a collection $\{T_\alpha\}$ of all topology on $S$, then the intersection $T$ of all $T_\alpha$ is also the topology on $S$ such that\par
+        1) $T\subset T_\alpha$,\par
+        2）If there exists $T'\subset T_\alpha$ for all $\alpha$, then $T'\subset T$.
+        We call $T$ the finest topology coarser than all other $T_\alpha$.\par
+        Given a family $\{A_I\}$ of subsets of $S$. The intersection of all topologies $T$ for which $A_I\subset T$ for all $I$ is called the topology generated by $A_I$.\par
+        \begin{Def}
+            Given $A\subset S$, the \emph{interior} of $A$ is the union of all sets that belongs to $A$, the \emph{closure} fo $A$ is the intersection of all closed sets containg $A$, and the boundary is the difference of set closure$\backslash$interior.
+        \end{Def}
+
+        \begin{Def}[(Metric Space)]
+
+        \end{Def}
+        \begin{Example}
+            For $\mathbb{R}^n$, the standard topology is obtained by 
+            $$d(x,y)=\sqrt{x^2+y^2}.$$
+        \end{Example}
+        \begin{Def}
+            A topological space is call a Hausdorff one (or $T_2$) is given any two point, one can always find their neighborhood such that they do not intersect with others. 
+        \end{Def}
+
+    \section{Category}
+
+    \section{Algebric Topology}
+
+        \subsection{Fundamental Groups}
+
+            \subsubsection{Motivation and Basic Ideas}
+
+            \subsubsection{Computation Methods}
+                First we introduce ``lego blocks'' of topological spaces. We do not start with standard definition, but give a geometric description of them:
+                \begin{Def}[(Simplexes)]
+                    A \emph{$r$-simplex} is \par
+                    1) a collection of $r+1$ points in $\mathbb{R}^r$;\par
+                    2) All points are non-degeneracy, i.e., are not on the same $(r-1)$ dimentional hypersurface, or all vectors starting at one origin are independent;\par
+                    3) $\displaystyle\bm{X}=\sum_i\lambda^i\bm{a}_i, \lambda^i\geqslant0, \sum_i\lambda^i=1$ (finite sum).
+                \end{Def}
+                \begin{Note}
+                    It's easy to see that each $r$-simplexes owns $r+1$ edges.
+                \end{Note}
+                \begin{Example}
+                    Let's look at topological things built by these simplexes.\par
+                    To make a composition of simplexes, one must require:\par
+                    1) A collection of $r$-simplexes;\par
+                    2) Glue them all together clears, by which we mean that their intersections must also be lower dimentional simplexes;\par
+                    3) All faces of s simplex are also in the collection.
+                \end{Example}
+                \begin{Def}
+                    \emph{Simplicial complexes} are collection of simplexes that are nicely fitted together, by which one can cf. Nakahara.
+                \end{Def}
+                \begin{Def}
+                    A topological space homeomorphic to polyhedron is called \emph{triangulable}.
+                \end{Def}
+                \begin{Note}
+                    Not all topological spaces are triangulable, for example, unbounded $\mathbb{R}^n$ (but whether is triangulable has nothing to do with boundness) and \emph{infinite number of discrete points} (for it cannot be written as finite sum of $0$-simplexes).
+                \end{Note}
+            \subsubsection{Relation to Homotopy}
+                $\pi_1$ is the homotopic classes of $\mathcal{C}(S,X)_0$. Now take $X$ as polyhedron, and base point as the $0$-simplexes of $X$, then we can consider those paths made up of adjacent $i$-simplexes.\par
+
+        \subsection{Homology Group}
+
+            cf. Nakahara.
+
+\end{document}
